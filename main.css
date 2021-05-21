@@ -1,0 +1,30 @@
+.first,.second,.third{
+    background-color: black;
+}
+._container{
+    padding: 25px;
+}
+
+._card {
+    width: 100%;
+    height: 100%;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+  }
+  
+  ._avatar img {
+    display: block;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  ._avatar {
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow: hidden;
+    background: white;
+  }
