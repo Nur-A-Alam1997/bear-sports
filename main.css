@@ -6,16 +6,19 @@
 }
 
 ._card {
-    width: 40%;
-    height: 100%;
-    display: block; 
+    /* width: 40%;
+    height: 100%; */
+    /* display: block;  */
     justify-content: center;
     align-items: center;
     margin-left: auto; 
     margin-right: 0;
+    /* border-radius: 5px; */
 }
 
-  
+ .name-text{
+   font-size: 4vw;
+ } 
 
   ._avatar img {
     display: block;
