@@ -1,9 +1,7 @@
 .first,.second,.third{
     background-color: black;
 }
-._container{
-    padding: 25px;
-}
+
 
 ._card {
     /* width: 40%;
