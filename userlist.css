@@ -1,7 +1,8 @@
 ._user-item {
     margin: auto;
-    width: calc(45% - 2rem);
-    min-width: 17.5rem;
+    /* width: calc(50% - 10rem); */
+    width: fit-content;
+    min-width: 18rem;
     list-style: none;
   }
   
@@ -22,14 +23,14 @@
     background: #ffd900;
   }
   
-  .card {
+  /* .card {
     margin: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     border-radius: 6px;
     padding: 1rem;
     overflow: hidden;
     background: white;
-  }
+  } */
   
   ._user-image {
     width: 4rem;
