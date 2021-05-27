@@ -1,29 +1,13 @@
-{{!-- <!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/test.css">
-    <!-- jquery -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-    <title>E-sports</title>
-  </head> --}}
   {{>header}}
-  <body class="bg-dark p-2">
+  <body class="bg-dark">
+    {{!-- {{>nav_top}} --}}
+    {{>nav}}
+    {{>sidebar}}
 
-    <!-- nav -->
-    <!-- <nav class="navbar"> -->
-    
-      {{>nav}}
-      <!-- <div class="_container bg-danger col-lg-12 p-1">  -->
-        
-        <!-- <div class="second col-lg-12 col-md-12 col-sm-4 p-5"> -->
-          <div class="second col-12 p-5 m-2 ">
+<div class="container-fluid col-10 border " style="background: black;float:right;">
+
+  <div class="row">
+          <div class="second col-sm pt-2">
 
             <div class="_head  ">
 
@@ -34,11 +18,11 @@
                   <img src="https://img-cdn.tnwcdn.com/image?fit=1280%2C720&url=https%3A%2F%2Fcdn0.tnwcdn.com%2Fwp-content%2Fblogs.dir%2F1%2Ffiles%2F2020%2F04%2Ffree-photo-stock-photography-copyright.jpg&signature=b2d3b9dbbe4aa5d3177e92429ec927ad" alt="image">
                 </div>
               </div>
-              <div class="_name">
+              <div class="_name col-sm">
                   <h2 >Nur-A-Alam</h2>
                   </div>
               </div>
-              <div class="_category">
+              <div class="_category col-sm">
               <h3 class=" border rounded bg-success p-3 text-center">HIGH valued</h3> 
               </div>
           </div>
@@ -51,62 +35,47 @@
             </div>
           </div>
 
-          
-          <div class="second col-12 p-5 m-2 ">
 
-            <div class="_head  ">
+<div class="second col-sm pt-2 border-bottom border-top" style="height: 5rem;"></div>
 
-              <div class="_card bg-warning  p-3 border rounded">
+  <div class="row">
 
-                <div class="_user-image">
-                <div class="_avatar ">
-                  <img src="https://img-cdn.tnwcdn.com/image?fit=1280%2C720&url=https%3A%2F%2Fcdn0.tnwcdn.com%2Fwp-content%2Fblogs.dir%2F1%2Ffiles%2F2020%2F04%2Ffree-photo-stock-photography-copyright.jpg&signature=b2d3b9dbbe4aa5d3177e92429ec927ad" alt="image">
-                </div>
-              </div>
-              <div class="_name">
-                  <h2 >Nur-A-Alam</h2>
-                  </div>
-              </div>
-              <div class="_category">
-              <h3 class=" border rounded bg-success p-3 text-center">HIGH valued</h3> 
-              </div>
-          </div>
-
-
-              
-
-            <div class="description">
-              <p class="text-warning ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel cumque iure possimus beatae voluptas deserunt tenetur natus nisi repellat, quia rerum temporibus reiciendis provident explicabo aliquid veniam, excepturi officiis. Rerum.</p>
-            </div>
-          </div>
-           
-
-          {{!-- <div class="second p-5 m-2"> --}}
-            <div class="container border rounded p-5">
-
-            <div class="row p-2">
-              <div class="col-sm-6">                
-              <p class="text-warning p-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel cumque iure possimus beatae voluptas deserunt tenetur natus nisi repellat, quia rerum temporibus reiciendis provident explicabo aliquid veniam, excepturi officiis. Rerum. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam enim vitae tenetur distinctio consequatur, ipsam error! Ex aperiam labore ratione, doloremque laboriosam perferendis earum suscipit atque illo corrupti cupiditate sint?</p>
-              </div>
-              
+            <div class="col-sm">
               {{>carousel}}
 
+            </div>
+              <div class="col col-sm-4 d-block">
+
+              <p class="text-warning p-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel cumque iure possimus beatae voluptas deserunt tenetur natus nisi repellat, quia rerum temporibus reiciendis provident explicabo aliquid veniam, excepturi officiis. Rerum. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam enim vitae tenetur distinctio consequatur, ipsam error! Ex aperiam labore ratione, doloremque laboriosam perferendis earum suscipit atque illo corrupti cupiditate sint?</p>
+              </div>             
+              
+  </div>
+<br>
+
+<div class="second col-sm pt-2 border-bottom border-top" style="height: 5rem;"></div>
+  <div class="row">
+
+            <div class="col-sm">
+              {{>carousel}}
+
+            </div>
+              <div class="col col-sm-4 d-block">
+
+              <p class="text-warning p-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel cumque iure possimus beatae voluptas deserunt tenetur natus nisi repellat, quia rerum temporibus reiciendis provident explicabo aliquid veniam, excepturi officiis. Rerum. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam enim vitae tenetur distinctio consequatur, ipsam error! Ex aperiam labore ratione, doloremque laboriosam perferendis earum suscipit atque illo corrupti cupiditate sint?</p>
+              </div>             
+
+              
+  </div>
             {{!-- </div> --}}
           </div>
-          </div>
-
+   </div>
+</div>
 
         
-    <!-- Optional JavaScript; choose one of the two! -->
-      
-      <!-- Option 1: Bootstrap Bundle with Popper -->
+
+
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
       
-      <!-- Option 2: Separate Popper and Bootstrap JS -->
-      <!--
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
-      -->
       
       
       

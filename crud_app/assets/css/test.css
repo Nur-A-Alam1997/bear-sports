@@ -15,8 +15,8 @@
     margin: 0;
     margin-left: auto;
     width: calc(45% - 2rem);
-    min-width: 10rem;
-    list-style: none;
+    min-width: 15rem;
+    /* list-style: none; */
   } 
 ._head{
    /* margin: auto; */
@@ -69,6 +69,7 @@
   }
 
   .description-c{
+    overflow: hidden;
     margin: 0;
     margin-left: auto;
     width: calc(45% - 2rem);

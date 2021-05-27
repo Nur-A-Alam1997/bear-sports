@@ -1,13 +1,16 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light ">
+<nav class="navbar fixed-positon navbar-expand-lg navbar-light" style="background:darkslategrey">
         <div class="container-fluid">
           <a class="navbar-brand bordered" href="#">E-sports</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          {{!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon "></span>
-          </button>
+          </button> --}}
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                {{!-- <a class="nav-link active" aria-current="page" href="/">Home</a> --}}
+                    <a href="#" class=" align-middle px-0" style="color:black;text-decoration:none">
+                        <i class="fs-4 bi-house "></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                    </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/userList">User List</a>
@@ -29,12 +32,12 @@
             </ul>
 
                   <a class="navbar-brand me-2 pr-2" href="file:///home/nur/Downloads/Bootstrap/ModalForm.html?">
-                    <img  src="img/login-rounded-down.png" width="20px" height="20px" alt="">
+                    <img src="img/box-arrow-in-right.svg" width="20px" height="20px" alt="login">
                     login
                   </a>
-
+                  <br>
                   <a class="navbar-brand border-dark" href="#">
-                    <img src="img/signUp.png" width="20px" height="20px" alt="">
+                    <img  src="img/person-plus.svg" width="20px" height="20px" alt="sign-up">
                     Sign-Up
                   </a>
           <br>
