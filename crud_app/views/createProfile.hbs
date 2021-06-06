@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/ProfileCSS/profileTemplate.css" />
+    <link rel="stylesheet" href="/css/SidebarCss/sidebar.css" />
+    <link rel="stylesheet" href="/css/SidebarCss/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css"
+    />
+</head>
+<body>
+
+    <div class="modal fade" id="crop-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+
+        <div class="modal-body">
+            <div id="cropped-image"></div>
+        </div>
+        
+      <div class="modal-footer">
+        <button type="button" id="cancel-cropping" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="upload-image" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+    </div>
+
+    <aside class="sidebar" style="z-index: 2;">
+        <nav>
+            <ul class="sidebar__nav">
+                <li>
+                    <a href="#" class="sidebar__nav__link">
+                        <i class="mdi mdi-fingerprint"></i>
+                        <span class="sidebar__nav__text">Fingerprint</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar__nav__link">
+                        <i class="mdi mdi-credit-card"></i>
+                        <span class="sidebar__nav__text">Credit card</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar__nav__link">
+                        <i class="mdi mdi-cart"></i>
+                        <span class="sidebar__nav__text">Shopping cart</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar__nav__link">
+                        <i class="mdi mdi-account-circle"></i>
+                        <span class="sidebar__nav__text">Account circle</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar__nav__link">
+                        <i class="mdi mdi-camera"></i>
+                        <span class="sidebar__nav__text">Camera</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar__nav__link">
+                        <i class="mdi mdi-settings"></i>
+                        <span class="sidebar__nav__text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        </aside>
+
+    <div class="container container-fluid">
+
+    <div class="row py-5 px-4">
+        <div class="col-md-5 mx-auto pb-5">
+            <!-- Profile widget -->
+            <div class="bg-white shadow rounded overflow-hidden">
+                <div class="px-4 pt-0 pb-4 cover">
+                    <div class="media align-items-end profile-head">
+                        <div class="profile mr-3">
+                            <img 
+                                src="{{user.profilePic}}"
+                                {{!-- src="/img/user.png" --}}
+                                alt="..." width="130" 
+                                class="rounded mb-2 img-thumbnail img-fluid"
+                                {{!-- id="profilePic" --}}
+                            >
+                            <form 
+                                action="/profilePic"
+                                enctype="multipart/form-data"
+                                class="form-control my-1"
+                                id="profilePicForm"
+                                method="POST"
+                                {{!-- style="display: none;" --}}
+                            >
+
+                            <input 
+                                {{!-- class="btn btn-outline-dark btn-sm btn-block" --}}
+                                type="file"
+                                name="profilePic"
+                                id="profilePic"
+                                accept="image/*"
+                                {{!-- style="display: none;" --}}
+                            />
+
+                            <input  id="removeProfilePicfile" 
+                                type="button"
+                                class="btn btn-outline-dark btn-sm btn-block"
+                                value="DELETE Photo"
+                                {{!-- style="display:{{#if user.profilePic.includes("default.png")}} none {{/if}}block " --}}
+                            >
+                            </form>
+                        </div>
+                        <div class="media-body mb-5 text-white">
+                            <h4 class="mt-0 mb-0">Mark Williams</h4>
+                            <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>New York</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-light p-4 mt-5 mt-md-7 mt-lg-5 d-flex justify-content-end text-center">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
+                        </li>
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
+                        </li>
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+                        </li>
+                    </ul>
+                </div>
+                <div class="px-4 py-3" >
+                    <h5 class="mb-0">About</h5>
+                    <form action="/profile"  method="POST">
+                    <div class="p-4 rounded shadow-sm bg-light">
+                        {{!-- <input 
+                            type="text" 
+                            id ="about"
+                            name="about" 
+                            style="  line-height:30px;font-size:22px;" > --}}
+                            <textarea
+                                    type="text" 
+                                    id ="about"
+                                    name="about"
+                                    class="textarea" 
+                                    style="width: 100%;height: 150px;">
+                            </textarea>
+                    </div>
+                            <input type="submit" value="Update Profile">
+                    </form>
+                </div>
+                <div class="py-4 px-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 mb-2 pr-lg-1"><img src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
+                        <div class="col-lg-6 mb-2 pl-lg-1"><img src="https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
+                        <div class="col-lg-6 pr-lg-1 mb-2"><img src="https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
+                        <div class="col-lg-6 pl-lg-1"><img src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+<!-- Modal -->
+
+
+    <footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js">
+        </script>
+        <script src="js/profilePicUpload.js">
+
+        </script>
+    </footer>
+</body>
+</html>
