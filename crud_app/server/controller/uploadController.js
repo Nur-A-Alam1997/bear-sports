@@ -48,33 +48,34 @@ exports.uploadProfilePicController=async(req,res,next)=>{
 
 
 
-exports.removeProfilePicController = async(req,res,next)=>{
+exports.removeProfilePicController = (req,res,next)=>{
 
     try {
         let defaultProfilePic =`/img/user.png`
         let currentProfilePic=req.user.profilePic
 
-        fs.unlink(`./assets${defaultProfilePic}`, function(err) {
+        fs.unlink(`./assets${currentProfilePic}`, async function(err) {
             let profile = await Profile.findOne({user:req.user._id})
 
             if (profile){
                 await Profile.findOneAndUpdate(
                     {user:req.user._id},
                     {$set:{profilePic:defaultProfilePic}},
-                    {returnNewDocument: true}
+                    // {returnNewDocument: true}
                 )
             }
-    
-        });
-        await User.findOneAndUpdate(
-            {_id:req.user._id},
-            {$set:{profilePic:defaultProfilePic}},
-            {returnNewDocument: true}
-        )
-        res.status(202).json({profilePic,"bas":"bad1"})
+            
+            await User.findOneAndUpdate(
+                {_id:req.user._id},
+                {$set:{profilePic:defaultProfilePic}},
+                // {returnNewDocument: true}
+                )
+
+            });
+            return res.status(202).json({profilePic:defaultProfilePic,"delete":"bad1"})
         
         
     } catch (error) {
-        res.status(500).json({profilePic:req.user.profilePic,"bas":"bad2"})
+        return res.status(500).json({profilePic:req.user.profilePic,"delete":"bad2"})
     }
 }

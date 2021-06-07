@@ -2,7 +2,7 @@ const router =require("express").Router()
 const {isAuthenticated}=require("../middleware/authMiddleware")
 const upload=require("../middleware/uploadMiddleware")
 
-const {uploadProfilePicController}=require("../controller/uploadController")
+const {uploadProfilePicController,removeProfilePicController}=require("../controller/uploadController")
 
 
 
@@ -11,5 +11,6 @@ router.get("/crop",(req,res)=>{
     res.render("cropped")
 })
 router.post("/crop",uploadProfilePicController)
+router.delete("/crop",removeProfilePicController)
 
 module.exports = router
