@@ -16,7 +16,7 @@ const uploadRoute =require("./server/routes/uploadRoute")
 const store = new MongoDBStore({
     uri: 'mongodb+srv://admin:64@cluster0.fqlyv.mongodb.net/e-sports?retryWrites=true&w=majority',
     collection: 'mySessions',
-    expires:1000*60*60*7
+    expires:1000*60*60*24
   });
 // const bodyParser = require("body-parser");
 const PORT=3000;
@@ -69,8 +69,9 @@ app.post("/crop",(req,res)=>{
     // Remove header
     let base64Image = base64String.split(';base64,').pop();
     // console.log(buffer)
-    fs.writeFile(`./assets/img/uploadImage/'+${Date.now()}+"-"+${req.body.name}`, base64Image, {encoding: 'base64'}, function(err) {
-        console.log('File created');
+    //writefile use relative path
+    fs.writeFile(`./assets/img/uploadImage/${Date.now()}-${req.body.name}`, base64Image, {encoding: 'base64'}, function(err) {
+        console.log('File created',`${Date.now()}`);
     });
     res.render("crop")
 })

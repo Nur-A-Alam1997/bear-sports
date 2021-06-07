@@ -1,5 +1,5 @@
-const User = requre("./User")
-const { Schema, model} = requre("mongoose")  
+const User = require("./User")
+const { Schema, model} = require("mongoose")  
 const productSchema = new Schema({
     price:{
         type:Int16Array,
