@@ -3,7 +3,8 @@ const User = require("../model/database/User")
 const fs =require("fs")
 
 exports.uploadProfilePicController=async(req,res,next)=>{
-    
+    console.log(req.body.name)
+    // console.log(req.file)
     if (req.body.img)
     {
         try {
@@ -15,8 +16,11 @@ exports.uploadProfilePicController=async(req,res,next)=>{
             let filename=`${Date.now()}-${req.body.name}`
             fs.writeFile("./assets/img/uploadImage/"+filename, base64Image, {encoding: 'base64'}, function(err) {
                 console.log('File created',`/img/uploadImage/${filename}`);
-                console.log(req.user._id)
+                console.log("file name:",filename)
             })
+            let currentProfilePic=req.user.profilePic
+            fs.unlink(`./assets${currentProfilePic}`, async function(err) {console.log(err)})
+            
             let profile = await Profile.findOne({user:req.user._id})
             let profilePic =`/img/uploadImage/${filename}`
 
@@ -33,7 +37,7 @@ exports.uploadProfilePicController=async(req,res,next)=>{
                 {$set:{profilePic}},
                 {returnNewDocument: true}
             )
-
+            console.log(profilePic)
             res.status(202).json({profilePic,"bas":"bad1"})
 
 
@@ -53,7 +57,7 @@ exports.removeProfilePicController = (req,res,next)=>{
     try {
         let defaultProfilePic =`/img/user.png`
         let currentProfilePic=req.user.profilePic
-
+        console.log(currentProfilePic)
         fs.unlink(`./assets${currentProfilePic}`, async function(err) {
             let profile = await Profile.findOne({user:req.user._id})
 

@@ -57,12 +57,24 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" id="crop">Crop</button>
+            
+         <button type="button" onclick="zoomin()"> Zoom In</button>
+          <button type="button" onclick="zoomout()"> Zoom Out</button>
+
           </div>
         </div>
       </div>
     </div>
   </div>
-  <button type="delte" onclick="makePUTrequest()" class="btn btn-danger" id="Delete" value="Delete">DELETE</button>
+  <button type="delete" 
+          onclick="makePUTrequest()" 
+          class="btn btn-danger" 
+          id="Delete" 
+          value="Delete"
+          style="display:{{#ifCond  user.profilePic  "/img/user.png"}}none{{else}}block {{/ifCond}}"
+          >
+          DELETE
+  </button>
   <script src="https://unpkg.com/jquery@3/dist/jquery.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="/js/cropper.js"></script>
@@ -73,11 +85,12 @@
        $.ajax({
            url: '/profilePic/crop',
            method: 'DELETE',
-
+           cache:false,
            data:{"action":"delete"},
            success: function (response) {
                //console.log(response.profilePic)
                document.getElementById("avatar").src=response.profilePic
+               document.getElementById("Delete").style.display="none"
                $alert.show().addClass('alert-success').text('delete success');
              },
            error: function (e) {
@@ -86,6 +99,25 @@
                $alert.show().addClass('alert-warning').text('delete error');
              },
        });
+    }
+  </script>
+  <script>
+    function zoomin() {
+      var myImg = document.getElementById("image");
+      var currWidth = myImg.clientWidth;
+      if (currWidth == 2500) return false;
+      else {
+        myImg.style.width = (currWidth + 100) + "px";
+      }
+    }
+
+    function zoomout() {
+      var myImg = document.getElementById("image");
+      var currWidth = myImg.clientWidth;
+      if (currWidth == 100) return false;
+      else {
+        myImg.style.width = (currWidth - 100) + "px";
+      }
     }
   </script>
   <script>
@@ -117,6 +149,10 @@
       var $alert = $('.alert');
       var $modal = $('#modal');
       var cropper;
+      
+      var options = {zoom: function (e) {
+          console.log(e.type, e.detail.ratio);
+        }}
 
 
       $('[data-toggle="tooltip"]').tooltip();
@@ -153,6 +189,7 @@
         cropper = new Cropper(image, {
           aspectRatio: 1,
           viewMode: 3,
+          autoCropArea: 0.7,
         });
       }).on('hidden.bs.modal', function () {
         cropper.destroy();
@@ -180,6 +217,7 @@
             $.ajax('/profilePic/crop', {
               method: 'POST',
               async:true,
+              cache:false,
               data: {"img":avatar.src,
                     "name":window.name},
               //processData: false,

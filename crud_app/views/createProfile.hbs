@@ -1,42 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}} </title>
+    <script src="/modalCropper/jquery-3.1.1.js"></script>
+    <link rel="stylesheet" href="/modalCropper/croppie.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/ProfileCSS/profileTemplate.css" />
+    {{!--
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" /> --}}
     <link rel="stylesheet" href="/css/SidebarCss/sidebar.css" />
     <link rel="stylesheet" href="/css/SidebarCss/styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css">
-    <link
-        rel="stylesheet"
-        href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css"
-    />
+    {{!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css"> --}}
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css" />
+    <style>
+        label.cabinet {
+            display: block;
+            cursor: pointer;
+        }
+
+        label.cabinet input.file {
+            position: relative;
+            height: 100%;
+            width: auto;
+            opacity: 0;
+            -moz-opacity: 0;
+            filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+            margin-top: -30px;
+        }
+
+        #upload-demo {
+            width: 250px;
+            height: 250px;
+            padding-bottom: 25px;
+        }
+    </style>
 </head>
+
 <body>
 
-    <div class="modal fade" id="crop-modal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-
-        <div class="modal-body">
-            <div id="cropped-image"></div>
+    {{!-- <div class="alert" role="alert"></div> --}}
+    <div class="modal fade" id="cropImagePop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <?=multiLanguage( "Edit Foto" , "Edit Photo" )?>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="upload-demo" class="center-block"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="cropImageBtn" class="btn btn-primary">Crop</button>
+                </div>
+            </div>
         </div>
-        
-      <div class="modal-footer">
-        <button type="button" id="cancel-cropping" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="upload-image" class="btn btn-primary">Understood</button>
-      </div>
-    </div>
-  </div>
     </div>
 
     <aside class="sidebar" style="z-index: 2;">
@@ -80,117 +108,267 @@
                 </li>
             </ul>
         </nav>
-        </aside>
+    </aside>
 
     <div class="container container-fluid">
 
-    <div class="row py-5 px-4">
-        <div class="col-md-5 mx-auto pb-5">
-            <!-- Profile widget -->
-            <div class="bg-white shadow rounded overflow-hidden">
-                <div class="px-4 pt-0 pb-4 cover">
-                    <div class="media align-items-end profile-head">
-                        <div class="profile mr-3">
-                            <img 
-                                src="{{user.profilePic}}"
-                                {{!-- src="/img/user.png" --}}
-                                alt="..." width="130" 
-                                class="rounded mb-2 img-thumbnail img-fluid"
-                                {{!-- id="profilePic" --}}
-                            >
-                            <form 
-                                action="/profilePic"
-                                enctype="multipart/form-data"
-                                class="form-control my-1"
-                                id="profilePicForm"
-                                method="POST"
-                                {{!-- style="display: none;" --}}
-                            >
+        <div class="row py-5 px-4">
+            <div class="col-md-5 mx-auto pb-5">
+                <!-- Profile widget -->
+                <div class="bg-white shadow rounded overflow-hidden">
+                    <div class="px-4 pt-0 pb-4 cover">
+                        <div class="media align-items-end profile-head mt-5">
+                            <div class="profile mr-3" style="width: 30%;">
+                                <label class="cabinet center-block">
+                                    {{!-- <img src="" class="gambar img-responsive img-thumbnail"
+                                        id="item-img-output" /> --}}
+                                    <img src="{{user.profilePic}}" class="gambar img-responsive img-thumbnail"
+                                        style="border: 0px;" id="item-img-output" />
+                                    <i class="mdi mdi-camera" style="width: 0px"></i>
 
-                            <input 
-                                {{!-- class="btn btn-outline-dark btn-sm btn-block" --}}
-                                type="file"
-                                name="profilePic"
-                                id="profilePic"
-                                accept="image/*"
-                                {{!-- style="display: none;" --}}
-                            />
 
-                            <input  id="removeProfilePicfile" 
-                                type="button"
-                                class="btn btn-outline-dark btn-sm btn-block"
-                                value="DELETE Photo"
-                                {{!-- style="display:{{#if user.profilePic.includes("default.png")}} none {{/if}}block " --}}
-                            >
-                            </form>
-                        </div>
-                        <div class="media-body mb-5 text-white">
-                            <h4 class="mt-0 mb-0">Mark Williams</h4>
-                            <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>New York</p>
+                                    <input type="file" onchange="getFileData(this)" class="item-img file center-block"
+                                        name="file_photo" />
+                                </label>
+                            </div>
+
+                            <div class="media-body mb-5 text-white">
+                                {{!-- <h4 class="mt-0 mb-0">Mark Williams</h4> --}}
+                                <h4 class="mt-0 mb-0"> {{user.name}} </h4>
+                                <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>New York</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="bg-light p-4 mt-5 mt-md-7 mt-lg-5 d-flex justify-content-end text-center">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
-                        </li>
-                        <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
-                        </li>
-                        <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
-                        </li>
-                    </ul>
-                </div>
-                <div class="px-4 py-3" >
-                    <h5 class="mb-0">About</h5>
-                    <form action="/profile"  method="POST">
-                    <div class="p-4 rounded shadow-sm bg-light">
-                        {{!-- <input 
-                            type="text" 
-                            id ="about"
-                            name="about" 
-                            style="  line-height:30px;font-size:22px;" > --}}
-                            <textarea
-                                    type="text" 
-                                    id ="about"
-                                    name="about"
-                                    class="textarea" 
-                                    style="width: 100%;height: 150px;">
-                            </textarea>
+                    <div class="bg-light p-4 mt-2 mt-md-2 mt-lg-2 d-flex justify-content-end text-center">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item">
+                                <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i
+                                        class="fas fa-image mr-1"></i>Photos</small>
+                            </li>
+                            <li class="list-inline-item">
+                                <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i
+                                        class="fas fa-user mr-1"></i>Followers</small>
+                            </li>
+                            <li class="list-inline-item">
+                                <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i
+                                        class="fas fa-user mr-1"></i>Following</small>
+                            </li>
+                        </ul>
                     </div>
-                            <input type="submit" value="Update Profile">
-                    </form>
-                </div>
-                <div class="py-4 px-4">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                    <div class="px-4 py-3">
+                        <h5 class="mb-0">About</h5>
+                        {{!-- <form action="/profilePic/bio" method="PUT"> --}}
+                            <div class="p-4 rounded shadow-sm bg-light">
+                                {{!-- <input type="text" id="about" name="about"
+                                    style="  line-height:30px;font-size:22px;"> --}}
+                                <textarea type="text" maxlength='250' id="bio" name="bio" class="textarea"
+                                    style="width: 100%;height: 150px;"></textarea>
+
+                                {{!-- {{Alert}} --}}
+                                <div class="alert" id="alert" role="alert"></div>
+                            </div>
+                            <input type="button" id="update" onclick="updateBio()" value="Update Profile">
+                            {{!--
+                        </form> --}}
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 mb-2 pr-lg-1"><img src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
-                        <div class="col-lg-6 mb-2 pl-lg-1"><img src="https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
-                        <div class="col-lg-6 pr-lg-1 mb-2"><img src="https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
-                        <div class="col-lg-6 pl-lg-1"><img src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="py-4 px-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 mb-2 pr-lg-1"><img
+                                    src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                                    alt="" class="img-fluid rounded shadow-sm"></div>
+                            <div class="col-lg-6 mb-2 pl-lg-1"><img
+                                    src="https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                                    alt="" class="img-fluid rounded shadow-sm"></div>
+                            <div class="col-lg-6 pr-lg-1 mb-2"><img
+                                    src="https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+                                    alt="" class="img-fluid rounded shadow-sm"></div>
+                            <div class="col-lg-6 pl-lg-1"><img
+                                    src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                                    alt="" class="img-fluid rounded shadow-sm"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
     </div>
 
-<!-- Modal -->
+    <!-- Modal -->
 
 
     <footer>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="/modalCropper/croppie.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-        
+
+        {{!--
         <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js">
         </script>
-        <script src="js/profilePicUpload.js">
 
+        <script src="js/profilePicUpload.js">
+        </script> --}}
+        <script>
+
+        </script>
+        <script>
+            function updateBio() {
+                var val = document.getElementById("bio").value
+                console.log(typeof (val))
+                $.ajax({
+                    url: "/profilePic/bio",
+                    method: "POST",
+                    data: {
+                        "bio": val
+                    },
+                    success: () => {
+                        $alert.show().addClass('alert-success').text('Upload success');
+                    },
+                    error: () => {
+                        alert("UnDone")
+                    }
+
+                })
+            }
+        </script>
+        <script>
+            $('#bio').keyup(function () {
+                var $alert = $('.alert');
+                var max = 250;
+                var len = $(this).val().length;
+                if (len >= max) {
+                    $('#alert').text(' you have reached the limit');
+                }
+                if (len < 50) {
+                    var min =50-len
+                    $alert.show().addClass('alert-danger').text('Minimum' + min + ' characters needs to be reached')
+
+                }
+                if (len > 50) {
+                    $alert.show().removeClass("alert-danger")
+                    var char = max - len;
+                    //$('#alert').text(char + ' characters left');
+                    $alert.show().addClass('alert-success').text(char + ' characters left');
+                }
+            });
+        </script>
+        <script>
+            function getFileData(myFile) {
+                var file = myFile.files[0];
+                var filename = file.name;
+                console.log(filename),
+                    window.name = filename
+            }
+            // Start upload preview image
+            //$(".gambar").attr("src", "https://user.gadjian.com/static/images/personnel_boy.png");
+            var $uploadCrop,
+                tempFilename,
+                rawImg,
+                imageId;
+            var $alert = $('.alert');
+            function readFile(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('.upload-demo').addClass('ready');
+                        $('#cropImagePop').modal('show');
+                        rawImg = e.target.result;
+                    }
+                    reader.readAsDataURL(input.files[0]);
+
+                }
+                else {
+                    swal("Sorry - you're browser doesn't support the FileReader API");
+                }
+            }
+
+            $uploadCrop = $('#upload-demo').croppie({
+                viewport: {
+                    width: 150,
+                    height: 200,
+                },
+                enforceBoundary: false,
+                //enableExif: true
+            });
+            $('#cropImagePop').on('shown.bs.modal', function () {
+                // alert('Shown pop');
+                $uploadCrop.croppie('bind', {
+                    url: rawImg
+                }).then(function () {
+                    console.log('jQuery bind complete');
+                });
+            });
+
+            $('.item-img').on('change', function () {
+                imageId = $(this).data('id');
+                tempFilename = $(this).val();
+                $('#cancelCropBtn').data('id', imageId); readFile(this);
+            });
+
+            const curProfilePic = document.getElementById("item-img-output").getAttribute("src");
+            console.log(curProfilePic)
+            const deleteRequest = (curProfilePic) => {
+                if (curProfilePic !== "/img/user.png") {
+
+                    $.ajax({
+                        url: '/profilePic/createProfile',
+                        method: 'DELETE',
+                        cache: false,
+                        data: { "img": curProfilePic },
+                        success: function (response) {
+                            //console.log(response.profilePic)
+                            $alert.show().addClass('alert-success').text('delete success');
+                        },
+                        error: function (e) {
+                            console.log(e)
+                            //avatar.src = source;
+                            $alert.show().addClass('alert-warning').text('delete error');
+                        },
+                    });
+                }
+            }
+
+            $('#cropImageBtn').on('click', function (ev) {
+                $uploadCrop.croppie('result', {
+                    type: 'base64',
+                    format: 'jpeg',
+                    size: "original",
+                    //quality: .99
+                }).then(function (resp) {
+                    $('#item-img-output').attr('src', resp);
+                    $.ajax('/profilePic/createProfile', {
+                        method: 'POST',
+                        async: true,
+                        cache: false,
+                        data: {
+                            "img": resp,
+                            "name": window.name
+                        },
+                        //processData: false,
+                        //contentType: false,
+                        success: function (response) {
+                            //document.getElementById("item-img-output").src=response.profilePic
+                            $alert.show().addClass('alert-success').text('Upload success');
+                        },
+
+                        error: function () {
+                            $(".gambar").attr("src", "https://user.gadjian.com/static/images/personnel_boy.png");
+                            $alert.show().addClass('alert-warning').text('Upload error');
+                        },
+
+                        complete: function () {
+                            $progress.hide();
+                            //deleteRequest(curProfilePic)
+                        },
+                    });
+                    $('#cropImagePop').modal('hide');
+
+                });
+            });
+                // End upload preview image
         </script>
     </footer>
 </body>
+
 </html>

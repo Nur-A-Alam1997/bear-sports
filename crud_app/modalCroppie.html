@@ -5,11 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    {{!-- <script src="../jquery-3.1.1.js"></script> --}}
-    <script src="/modalCropper/jquery-3.1.1.js"></script>
+    <script src="jquery-3.1.1.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
     <!-- <link rel="stylesheet" href="https://foliotek.github.io/Croppie/croppie.css"/> -->
-    <link rel="stylesheet" href="/modalCropper/croppie.css">
+    <link rel="stylesheet" href="croppie.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 </head>
 <body>
@@ -52,12 +51,12 @@ figure figcaption {
                                             <img src="" class="gambar img-responsive img-thumbnail" id="item-img-output" />
                                           <figcaption><i class="fa fa-camera"></i></figcaption>
                                     </figure>
-                                        <input type="file" onclick="getFileData(this)" class="item-img file center-block" name="file_photo"/>
+                                        <input type="file" class="item-img file center-block" name="file_photo"/>
                                     </label>
                                 </div>
                             </div>
 </div>
-<div class="alert" role="alert"></div>
+
 <div class="modal fade" id="cropImagePop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                           <div class="modal-dialog">
                             <div class="modal-content">
@@ -78,18 +77,9 @@ figure figcaption {
 </div>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
 <!-- <script src="https://foliotek.github.io/Croppie/croppie.js"></script> -->
-<script src="/modalCropper/croppie.js"></script>
+<script src="croppie.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-
- //
- //get-filename   
-function getFileData(myFile){
-     var file = myFile.files[0];  
-     var filename = file.name;
-     console.log(filename)
-     window.name=filename}
-
     // Start upload preview image
 $(".gambar").attr("src", "https://user.gadjian.com/static/images/personnel_boy.png");
                         var $uploadCrop,
@@ -106,7 +96,7 @@ $(".gambar").attr("src", "https://user.gadjian.com/static/images/personnel_boy.p
                                     rawImg = e.target.result;
                                 }
                                 reader.readAsDataURL(input.files[0]);
-                                
+                                $alert.show().addClass('alert-success').text('Upload success');
                             }
                             else {
                                 swal("Sorry - you're browser doesn't support the FileReader API");
@@ -139,29 +129,7 @@ $(".gambar").attr("src", "https://user.gadjian.com/static/images/personnel_boy.p
                                 size: {width: 150, height: 200}
                             }).then(function (resp) {
                                 $('#item-img-output').attr('src', resp);
-                                $.ajax('/profilePic/crop', {
-                                method: 'POST',
-                                async:true,
-                                cache:false,
-                                data: {"img":resp,
-                                      "name":window.name},
-                                //processData: false,
-                                //contentType: false,
-                                success: function () {
-                                    $alert.show().addClass('alert-success').text('Upload success');
-                                },
-
-                                error: function () {
-                                    $(".gambar").attr("src", "https://user.gadjian.com/static/images/personnel_boy.png");
-                                    $alert.show().addClass('alert-warning').text('Upload error');
-                                },
-
-                                complete: function () {
-                                    $progress.hide();
-                                },
-                                });
                                 $('#cropImagePop').modal('hide');
-                                
                             });
                         });
                 // End upload preview image

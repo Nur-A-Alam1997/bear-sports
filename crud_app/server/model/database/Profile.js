@@ -1,17 +1,17 @@
 const {Schema, model} =require("mongoose")
-
+const User = require("./User")
 const profileSchema= new Schema({
     user:
     {
         type:Schema.Types.ObjectId,
         ref:"User",
-        require:true
+        required:true
     },
     bio:
     {
         type:String,
         trim:true,
-        maxlength:20,
+        maxlength:255,
         required:true
     },
     
@@ -32,6 +32,6 @@ const profileSchema= new Schema({
 })
 
 
-const Profile = model("Product",profileSchema)
+const Profile = model("Profile",profileSchema)
 
 module.exports=Profile

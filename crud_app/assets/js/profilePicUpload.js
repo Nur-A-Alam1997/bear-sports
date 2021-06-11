@@ -32,6 +32,7 @@ window.onload=function(){
                     })
             }
             reader.readAsDataURL(file)
+            console.log(reader.readAsDataURL(file))
         }
 
 
