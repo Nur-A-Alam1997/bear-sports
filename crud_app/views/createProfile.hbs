@@ -334,7 +334,7 @@
                     type: 'base64',
                     format: 'jpeg',
                     size: "original",
-                    //quality: .99
+                    quality: 1
                 }).then(function (resp) {
                     $('#item-img-output').attr('src', resp);
                     $.ajax('/profilePic/createProfile', {
