@@ -1,91 +1,72 @@
-<script>
-function zoomin() {
-  var myImg = document.getElementById("map");
-  var currWidth = myImg.clientWidth;
-  if (currWidth == 2500) return false;
-  else {
-    myImg.style.width = (currWidth + 100) + "px";
-  }
-}
-
-function zoomout() {
-  var myImg = document.getElementById("map");
-  var currWidth = myImg.clientWidth;
-  if (currWidth == 100) return false;
-  else {
-    myImg.style.width = (currWidth - 100) + "px";
-  }
-}
-
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
 <style>
-
-    *body {
-  margin: 0;
+  .container1 {
+    margin-left: auto;
+  padding: 23px;
+  /* position: relative; */
+  width: 300px;/*Or whatever you want*/
+  background: black;
 }
-
-#navbar {
-  overflow: hidden;
-  background-color: #099;
-  position: fixed;
-  top: 0;
+/* .imageOne {
   width: 100%;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  padding-left: 20px;
+} */
+
+.container{
+  display: inline-block;
+    width: calc(16.6666667% - 1rem);
+    padding-bottom: calc(16.6666667% - 1rem);
+    height: 0;
+    position: relative;
+    margin: .5rem;
+    background: #f3f3f3;
+    cursor: default;
 }
 
-#navbar a {
-  float: left;
-  display: block;
-  color: #666;
-  text-align: center;
-  padding-right: 20px;
-  text-decoration: none;
-  font-size: 17px;
+.imageTwo, .imageT, .imageTw,.imageT1{
+ 
+   /* width:100%; height:350px;
+    object-fit:cover; object-position:50% 50%;  */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
 }
 
-#navbar a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-#navbar a.active {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.main {
-  padding: 16px;
-  margin-top: 30px;
-  width: 100%;
-  height: 100vh;
-  overflow: auto;
-  cursor: grab;
-  cursor: -o-grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-}
-
-.main img {
-  height: auto;
-  width: 100%;
-}
-
-.button {
-  width: 300px;
-  height: 60px;
-}
 </style>
-<!-- <script type="text/javascript" src="https://cdn.rawgit.com/asvd/dragscroll/master/dragscroll.js"></script> -->
-
 <body>
+  <div class="container">
+      <!-- <img class="imageOne image" src="https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8184.jpg?size=626&ext=jpg"alt=""> -->
+      <img class="imageTwo image" src="./assets/img/uploadImage/1623311075530-nature.jpeg" alt="" srcset="">
+    </div>
+  <div class="container">
+      <!-- <img class="imageOne image" src="https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8184.jpg?size=626&ext=jpg"alt=""> -->
+      <img class="imageTw image" src="https://static.remove.bg/remove-bg-web/2e3a8aa57bcd08605c78f95f1c4bd007b07a5100/assets/start_remove-79a4598a05a77ca999df1dcb434160994b6fde2c3e9101984fb1be0f16d0a74e.png" alt="" srcset="">
+    </div>
+  <div class="container">
+      <!-- <img class="imageOne image" src="https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8184.jpg?size=626&ext=jpg"alt=""> -->
+      <img class="imageT image" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" alt="" srcset="">
+    </div>
+  <div class="container">
+      <!-- <img class="imageOne image" src="https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8184.jpg?size=626&ext=jpg"alt=""> -->
+      <img class="imageT1 image" src="/media/nur/Old Drive/arpa mobile content/Pictures/Messenger/received_392095591727651.jpeg" alt="" srcset="">
+    </div>
+  <div class="container">
+      <!-- <img class="imageOne image" src="https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8184.jpg?size=626&ext=jpg"alt=""> -->
+      <img class="imageT1 image" src="./assets/img/uploadImage/user.png" alt="" srcset="">
+    </div>
 
-  <div id="navbar">
-    <button type="button" onclick="zoomin()"> Zoom In</button>
-    <button type="button" onclick="zoomout()"> Zoom Out</button>
-  </div>
 
-  <div class="main dragscroll">
-    <img id="map" src="http://www.worldatlas.com/webimage/countrys/europelargesm.jpg" />
-  </div>
+
+    
+</body>
+<script>
+  
+</script>
+</html>

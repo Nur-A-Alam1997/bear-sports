@@ -119,9 +119,13 @@ app.post("/crop", (req, res) => {
 //         lastName: "Katz",
 //     })
 // })
+const play = require("./dist/js/play")
+const form =require("./server/middleware/formidable")
+app.use("/u",form)
 
 app.get("/", (req, res) => {
-  res.render("index");
+  // res.render("index");
+  res.render("./play/preview");
 });
 
 mongoose

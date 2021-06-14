@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<body>
+<style media="screen">
+.imageOutput{
+  margin-top: 2em;
+  margin-right: 5%;
+  border: solid #19aebb 2px;
+  border-radius: 20px;
+  position: relative;
+  right: 1em;
+  width:190px;
+  height: 150px;
+}
+
+.uploaded_image{
+  margin-top: 2em;
+  margin-right: 3%;
+  border: solid #19aebb 3px;
+  border-style: dotted;
+  border-radius: 20px;
+  position: relative;
+  right: 1em;
+  width:170px !important;
+  height: 150px;
+  padding: 0em !important;
+
+}
+.imageUpload{
+  padding: 3.2em !important;
+  margin-top: 2em !important;
+  padding-top: 0.5em !important;
+}
+.ImageOnPreview{
+
+  border-radius: 18px;
+  width:171px !important;
+  height: 150px;
+  padding: 0em !important;
+  margin: 0em !important;
+
+
+
+}
+#imageUploadSection{
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.photoText{
+      margin-top: -2em !important;
+}
+.fileUpload{visibility: hidden;}
+</style>
+<h1>File Upload</h1>
+<form action="/u/api/upload" method="POST" enctype="multipart/form-data">
+<input type="file" accept="image/*" name="files[]" onchange="loadFile(event)"  multiple >
+		
+				<!-- <div class="col s3 imageOutput" >
+
+				</div> -->
+    <input type="submit" value="submit">
+     
+</form>
+
+<div class="row">
+			<div class="col s11 center" id="imageUploadSection">
+
+   <div class="uploaded_image col s11  m10 l3 "  >
+
+				 	<img  src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/image_add-64.png"  alt="add a photo" id="output1" class="col s12 imageUpload" >
+				  <span class="col s12 photoText" id="photoText1" ></span>
+        </div>
+				<div class="uploaded_image col s11  m10 l3 ">
+				 	<img  src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/image_add-64.png"  alt="add a photo" id="output2" class="col s12 imageUpload" >
+				  <span class="col s12 photoText" id="photoText2"></span>
+        </div>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<script type="text/javascript">
+// <input type="file" accept="image/*" onchange="loadFile(event)">
+// <img id="output"/>
+  var imageNumber=0;
+  var idOfClicked;
+  var textid;
+  var loadFile = function(event) {
+        imageNumber++;
+        
+            var imageId=idOfClicked;
+            var output = document.getElementById(imageId);
+            output.src = URL.createObjectURL(event.target.files[0]);           
+            $("#"+imageId).addClass( "ImageOnPreview" );
+            $("#"+imageId).delay(200).show();
+          
+
+        
+
+
+
+
+  };
+
+  function htmlToElement(html) {
+    var template = document.createElement('template');
+    template.innerHTML = html;
+    return template.content.firstChild;
+}
+
+  $(document).ready(function() {
+    $("#output1").click(function() {
+      $("input[id='my_file']").click();
+      // loadFile(event);
+      idOfClicked="output1";
+      textid="photoText1"
+    });
+    $("#output2").click(function() {
+      $("input[id='my_file']").click();
+      // loadFile(event);
+        idOfClicked="output2";
+        textid="photoText2"
+    });
+    $("#output3").click(function() {
+      $("input[id='my_file']").click();
+      // loadFile(event);
+        idOfClicked="output3";
+        textid="photoText3"
+    });
+
+
+
+
+
+
+
+
+  });
+
+</script>
+

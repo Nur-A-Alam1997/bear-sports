@@ -4,146 +4,145 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="assets/modalCropper/jquery-3.1.1.js"></script>
-    <script src="assets/modalCropper/croppie.js"></script>
-    <!-- <link rel="stylesheet" href="https://foliotek.github.io/Croppie/croppie.css"/> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/modalCropper/croppie.css" />
+    <title>Pruduct Creation</title>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous"></script>
+    <!-- <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    /> -->
+    <!-- <link href="dist/css/bootstrap-imageupload.css" rel="stylesheet"> -->
+    <!-- finecrop -->
+    <link href="fineCrop/css/fineCrop.css" rel="stylesheet" />
+    <link href="fineCrop/css/layout.css" rel="stylesheet" />
+    <script src="fineCrop/js/fineCrop.js"></script>
   </head>
-  <body>
-    <style>
-      label.cabinet {
-        display: block;
-        cursor: pointer;
-      }
 
-      label.cabinet input.file {
-        position: relative;
-        height: 100%;
-        width: auto;
-        opacity: 0;
-        -moz-opacity: 0;
-        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
-        margin-top: -30px;
-      }
-
-      #upload-demo {
-        width: 250px;
-        height: 250px;
-        padding-bottom: 25px;
-      }
-      figure figcaption {
-        position: absolute;
-        bottom: 0;
-        color: #fff;
-        width: 100%;
-        padding-left: 9px;
-        padding-bottom: 5px;
-        text-shadow: 0 0 10px #000;
-      }
-    </style>
-
-<div class="container">
-  <div class="row">
-                              <div class="col-xs-12">
-                                  <label class="cabinet center-block">
-                                      <figure>
-                                          <img src="" class="gambar img-responsive img-thumbnail" id="item-img-output" />
-                                        <figcaption><i class="fa fa-camera"></i></figcaption>
-                                  </figure>
-                                      <input type="file" class="item-img file center-block" name="file_photo"/>
-                                  </label>
-                              </div>
-                          </div>
-</div>
-
-<div class="modal fade" id="cropImagePop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <h4 class="modal-title" id="myModalLabel">
-                              <?=multiLanguage( "Edit Foto" , "Edit Photo" )?></h4>
-                          </div>
-                          <div class="modal-body">
-                          <div id="upload-demo" class="center-block"></div>
-                    </div>
-                           <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="button" id="cropImageBtn" class="btn btn-primary">Crop</button>
-    </div>
-                          </div>
-                        </div>
-</div>
-    <!-- <script rel="stylesheet" href="/assets/modalCropper/croppie.js"> </script> -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-      // Start upload preview image
-      $(".gambar").attr(
-        "src",
-        "https://user.gadjian.com/static/images/personnel_boy.png"
-      );
-      var $uploadCrop, tempFilename, rawImg, imageId;
-      var $alert = $(".alert");
-      function readFile(input) {
-        if (input.files && input.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            $(".upload-demo").addClass("ready");
-            $("#cropImagePop").modal("show");
-            rawImg = e.target.result;
-          };
-          reader.readAsDataURL(input.files[0]);
-          $alert.show().addClass("alert-success").text("Upload success");
-        } else {
-          swal("Sorry - you're browser doesn't support the FileReader API");
-        }
-      }
-
-      $uploadCrop = $("#upload-demo").croppie({
-        viewport: {
-          width: 250,
-          height: 200,
-        },
-        enforceBoundary: false,
-        enableExif: true,
-      });
-      $("#cropImagePop").on("shown.bs.modal", function () {
-        // alert('Shown pop');
-        $uploadCrop
-          .croppie("bind", {
-            url: rawImg,
-          })
-          .then(function () {
-            console.log("jQuery bind complete");
-          });
-      });
-
-      $(".item-img").on("change", function () {
-        imageId = $(this).data("id");
-        tempFilename = $(this).val();
-        $("#cancelCropBtn").data("id", imageId);
-        readFile(this);
-      });
-      $("#cropImageBtn").on("click", function (ev) {
-        $uploadCrop
-          .croppie("result", {
+<body>
+  <div class="container bg-dark">
+    <div class="row">
+        <div class="col-md-6 card card-body">
+          <h2 class="form-title">Contact us</h2>
+          <p class="justify text-muted">
+            Have an enquiry or would like to give us feedback?<br />Fill out the
+            form below to contact our team.
+          </p>
+          <form>
+            <div class="form-group pt-2 pl-1">
+              <label for="exampleInputName">Your name</label>
+              <input type="text" class="form-control" id="exampleInputName" />
+            </div>
+            <div class="form-group pl-1">
+              <label for="exampleInputEmail1">Your email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="exampleInputEmail1"
+              />
+            </div>
+            <div class="form-group pl-1">
+              <label for="exampleFormControlTextarea1">Your message</label>
+              <textarea
+                class="form-control"
+                id="exampleFormControlTextarea1"
+                rows="5"
+              ></textarea>
+            </div>
+            <div class="row">
+              <div class="col-md-3 offset-md-9">
+                <button type="submit" class="btn btn-primary">Send</button>
+              </div>
+            </div>
+          </form>
+      
             
-            type: "base64",
-            format: "jpeg",
-            // size: "original",
-            quality: 1,
-            size: { width: 250, height: 200 },
-          })
-          .then(function (resp) {
-            $("#item-img-output").attr("src", resp);
-            $("#cropImagePop").modal("hide");
-          });
-      });
-      // End upload preview image
-    </script>
+      
+      
+        
+      </div>
+    </div>
+    <!-- finecrop -->
+      <div class="row">
+          <div class="col-lg-8 col-md-7 col-sm-6">
+</div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-1">
+              <input type="file" id="upphoto" style="display:none;">
+              <label for="upphoto">
+                  <div class="inputLabel">
+                      click
+              </label>
 
-  </body>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-8 col-md-7 col-sm-6">
+              <img id="croppedImg" style="border:10px solid #000; margin:auto;">
+          </div>
+      </div>
+  </div>
+
+
+<!--
+  Div structure : Manitan a container which has class "cropHolder"
+                  Inside this, another div with the ID of "cropWrapper" and inside this use <img> with any id
+                  this have to use in this option: (cropInput: 'inputImage')
+  CropInputs    : Here you can maintain structure as you want but keep these IDs same
+                  1. "xmove" : for horizontal moving
+                  2. "ymove" : for vertical moving
+                  3. "zplus" : zoom in button
+                  4. "zminus": zoom out button
+                  5. "cropSubmit" : submitting the crop
+                  6. "closeCrop" : closing the cropping screen
+-->
+  <div class="cropHolder">
+      <div id="cropWrapper">
+          <img id="inputImage" src="images/face.jpg">
+      </div>
+      <div class="cropInputs">
+          <div class="inputtools">
+              <p>
+                  <span>
+                      <img src="images/horizontal.png">
+                  </span>
+                  <span>horizontal movement</span>
+              </p>
+              <input type="range" class="cropRange" name="xmove" id="xmove" min="0" value="0">
+          </div>
+          <div class="inputtools">
+              <p>
+                  <span>
+                      <img src="images/vertical.png">
+                  </span>
+                  <span>vertical movement</span>
+              </p>
+              <input type="range" class="cropRange" name="ymove" id="ymove" min="0" value="0">
+          </div>
+          <br>
+          <button class="cropButtons" id="zplus">
+              <img src="images/add.png">
+          </button>
+          <button class="cropButtons" id="zminus">
+              <img src="images/minus.png">
+          </button>
+          <br>
+          <button id="cropSubmit">submit</button>
+          <button id="closeCrop">Close</button>
+      </div>
+      
+  </div>
+
+  <script>
+      $("#upphoto").finecrop({
+          viewHeight: 500,
+          cropWidth: 300,
+          cropHeight: 200,
+          cropInput: 'inputImage',
+          cropOutput: 'croppedImg',
+          zoomValue: 50
+      });
+  </script>
+</body>
 </html>

@@ -12,9 +12,8 @@ const {
 
 
 // router.post("/profilePic",isAuthenticated,upload.single("profilePic"),uploadProfilePic)
-router.get("/crop", (req, res) => {
-  res.render("ckEditor");
-});
+
+
 router.post("/crop", uploadProfilePicController);
 // router.delete("/crop", removeProfilePicController);
 

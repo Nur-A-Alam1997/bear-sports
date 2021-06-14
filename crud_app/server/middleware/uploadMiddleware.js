@@ -2,10 +2,10 @@ const multer =require("multer")
 const path = require("path")
 const storage =multer.diskStorage({
     destination:(req,file,cb)=>{
-        cb(null,"/img/uploadImage")
+        cb(null,"./assets/img/uploadImage")
     },
     filename:(req,file,cb)=>{
-        cb(null,file.fieldname+"-"+Date.now())
+        cb(null,file.fieldname+"-"+Date.now()+path.extname(file.originalname))
     }
 })
 
@@ -16,19 +16,14 @@ const upload = multer({
     limits:{
         fileSize:1024*1024*8
     },
-    fileFilter:(req,file,cb)=>{
-        const types = /jpg|jpeg|png|gif/
-        const extName = types.test(path.extname(file.originalname).tolowercase())
-        const mimeType =types.test(file.mimetype)
-
-        if (extName && mimeType)
-        {
-            cb(null,true)
+    ffileFilter: function (req, file, callback) {
+        var ext = path.extname(file.originalname);
+        if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+            console.log("ole")
+            return callback(new Error('Only images are allowed'))
         }
-        cb(new Error("Only jpg|jpeg|png|gif images"))
-
-
-    }
+        callback(null, true)
+    },
 })
 
 
