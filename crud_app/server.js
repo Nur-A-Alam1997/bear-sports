@@ -125,7 +125,7 @@ app.use("/u",form)
 
 app.get("/", (req, res) => {
   // res.render("index");
-  res.render("./play/preview");
+  res.render("./play/preview",{val:12});
 });
 
 mongoose

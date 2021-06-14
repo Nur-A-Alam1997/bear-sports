@@ -129,6 +129,8 @@ ul.thumb-Images li {
 </body>
 <script>
     //action="/u/uploadfile" 
+    var b = {{{val}}}
+    console.log(b)
     
 </script>
 <script>
@@ -255,7 +257,7 @@ $("#theform").submit(function(e){
         processData: false,
         // pass the form in the FormData constructor to send all the data inside the form
         //data: new FormData(this),
-        data: JSON.stringify(AttachmentArray),
+        data: JSON.stringify(AttachmentArray.filter(function () { return true })),
         success: function(result) {
             alert(result);
         },
@@ -325,6 +327,7 @@ function CheckFileSize(fileSize) {
   if (fileSize < 300000) {
     return true;
   } else {
+    console.log(("me",AttachmentArray))
     return false;
   }
   return true;
