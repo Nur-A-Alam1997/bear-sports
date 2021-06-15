@@ -34,6 +34,9 @@ hbs.registerHelper("ifCond", function (v1, v2, options) {
   return options.inverse(this);
 });
 
+hbs.registerHelper('toJSON', function(obj) {
+  return JSON.stringify(obj);
+});
 // app.set("views",path.join(__dirname,"views"))
 
 app.use(express.urlencoded({ limit: "50MB", extended: true }));
@@ -125,7 +128,8 @@ app.use("/u",form)
 
 app.get("/", (req, res) => {
   // res.render("index");
-  res.render("./play/preview",{val:12});
+  yourCities =  ["stockholm", "moscow", "barcelona", "bordeaux", "helsinki", "london"];
+  res.render("./play/preview",{city:yourCities});
 });
 
 mongoose

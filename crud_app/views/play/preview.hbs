@@ -7,6 +7,7 @@
     <meta http-equiv="Cache-control" content="no-cache">
     <title>Document</title>
     <script src="/modalCropper/jquery-3.1.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
 </head>
 <style>
     /*Copied from bootstrap to handle input file multiple*/
@@ -129,16 +130,27 @@ ul.thumb-Images li {
 </body>
 <script>
     //action="/u/uploadfile" 
-    var b = {{{val}}}
-    console.log(b)
+    //var cit= {{{toJSON city}}}
+    //console.log((cit))
+    //var a=["ole"]
+    //a=a.concat(cit)
+    //console.log(a)
+
+
     
 </script>
 <script>
     //I added event handler for the file upload control to access the files properties.
 document.addEventListener("DOMContentLoaded", init, false);
-
+var cit= {{{toJSON city}}}
+    //console.log((cit))
+    var a=["ole"]
+    //a=a.concat(cit)
+    //console.log(a)
 //To save an array of attachments
 var AttachmentArray = [];
+//AttachmentArray=AttachmentArray.concat(a)
+console.log(AttachmentArray)
 
 //counter for attachment array
 var arrCounter = 0;
