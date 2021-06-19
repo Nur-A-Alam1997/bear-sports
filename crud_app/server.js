@@ -10,6 +10,7 @@ const setLocals = require("./server/middleware/setLocals");
 const authRoutes = require("./server/routes/authRoute");
 const dashboardRoute = require("./server/routes/dashboardRoute");
 const uploadRoute = require("./server/routes/uploadRoute");
+const postRoute = require("./server/routes/postRoute");
 
 const store = new MongoDBStore({
   uri: "mongodb+srv://admin:64@cluster0.fqlyv.mongodb.net/e-sports?retryWrites=true&w=majority",
@@ -34,7 +35,7 @@ hbs.registerHelper("ifCond", function (v1, v2, options) {
   return options.inverse(this);
 });
 
-hbs.registerHelper('toJSON', function(obj) {
+hbs.registerHelper("toJSON", function (obj) {
   return JSON.stringify(obj);
 });
 // app.set("views",path.join(__dirname,"views"))
@@ -55,6 +56,7 @@ app.use(setLocals());
 
 app.use("/auth", authRoutes);
 app.use("/dashboard", dashboardRoute);
+app.use("/post", postRoute);
 
 app.use("/profilePic", uploadRoute);
 
@@ -122,14 +124,21 @@ app.post("/crop", (req, res) => {
 //         lastName: "Katz",
 //     })
 // })
-const play = require("./dist/js/play")
-const form =require("./server/middleware/formidable")
-app.use("/u",form)
+const play = require("./dist/js/play");
+const form = require("./server/middleware/formidable");
+app.use("/u", form);
 
 app.get("/", (req, res) => {
   // res.render("index");
-  yourCities =  ["stockholm", "moscow", "barcelona", "bordeaux", "helsinki", "london"];
-  res.render("./play/preview",{city:yourCities});
+  yourCities = [
+    "stockholm",
+    "moscow",
+    "barcelona",
+    "bordeaux",
+    "helsinki",
+    "london",
+  ];
+  res.render("./play/newPost", { city: yourCities });
 });
 
 mongoose

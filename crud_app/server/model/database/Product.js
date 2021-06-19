@@ -1,27 +1,37 @@
 const { Schema, model} = require("mongoose")  
-// const User = require("./User")
+const Profile = require("./Profile")
 const productSchema = new Schema({
-    price:{
-        type:Int16Array,
-        require:true
-    },
-    descripton:
+    user:
     {
-        type:String,
-        maxlength:55,
-        trim:true,
-        requred:true
-    },
-    image:
-    {
-        type:String,
-        requre:true
-    },
-    vendor:
-    {
-        type: Schema.Types.ObjectId,
+        type:Schema.Types.ObjectId,
         ref:"User",
         required:true
+    },
+    price:{
+        type:Number,
+        required:true
+    },
+    title:{
+        type:String,
+        required:true,
+    },
+    description:
+    {
+        type:String,
+        maxlength:255,
+        trim:true,
+        required:true
+    },
+    images:
+    [
+        {type:String,
+        required:true}
+    ],
+    profile:
+    {
+        type: Schema.Types.ObjectId,
+        ref:"Profile",
+        // required:true
     },
     timestamps:{ type: Date, default: Date.now }
     

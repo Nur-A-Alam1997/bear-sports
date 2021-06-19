@@ -1,5 +1,6 @@
 const {Schema, model} =require("mongoose")
 const User = require("./User")
+const Product = require ("./Product")
 const profileSchema= new Schema({
     user:
     {
@@ -21,7 +22,7 @@ const profileSchema= new Schema({
     },
 
 
-    products:
+    product:
     [
         {
             type:Schema.Types.ObjectId,
