@@ -9,8 +9,8 @@ exports.postCreatePostController = async (req, res, next) => {
 
   if (image) {
     image.forEach((element) => {
-      filePath = `./assets/img/uploadImage/${Date.now()}-${element.FileName}`;
-      viewPath=`/img/uploadImage/${Date.now()}-${element.FileName}`
+      viewPath = `/img/uploadImage/${Date.now()}-${element.FileName}`;
+      filePath = `./assets${viewPath}`;
       images.push(viewPath);
       fs.writeFile(
         filePath,
@@ -36,7 +36,7 @@ exports.postCreatePostController = async (req, res, next) => {
     console.log(product._id);
     await Profile.findOneAndUpdate(
       { user: req.user._id },
-      { $push: { "product": product._id } }
+      { $push: { product: product._id } }
     );
     res.send("/post/edit/" + `${product._id}`);
   } catch (error) {
@@ -55,6 +55,101 @@ exports.postEditGetController = async (req, res, next) => {
     });
     res.render("./play/editProduct", { product });
   } catch (error) {
-    console.log(error)
+    console.log(error);
+  }
+};
+
+exports.postEditPostController = async (req, res, next) => {
+  try {
+    let { title, description, price } = req.body;
+    let newFiles = req.body.newFiles;
+    let newImage = [];
+    if (newFiles) {
+      newFiles.forEach((element) => {
+        viewPath = `/img/uploadImage/${Date.now()}-${element.FileName}`;
+        filePath = `./assets${viewPath}`;
+        newImage.push(viewPath);
+        fs.writeFile(
+          filePath,
+          element.Content.toString(),
+          { encoding: "base64" },
+          function (err) {
+            return console.log("File created", filePath);
+          }
+        );
+      });
+    }
+    console.log(newImage);
+    let prodId = req.params.prodId;
+    let oldFiles = req.body.oldFiles;
+    let product = await Product.findOne({ user: req.user._id, _id: prodId });
+    let images = [];
+    images = images.concat(newImage);
+    console.log(images);
+
+    let removeImage = product.images.filter(function (n) {
+      return !this.has(n);
+    }, new Set(oldFiles));
+
+    if (removeImage) {
+      for (var i = 0; i < removeImage.length; i++) {
+        fs.unlink(`./assets${removeImage[i]}`, async function (err) {
+          console.log("Done");
+        });
+      }
+    }
+
+    let keepImage = oldFiles.filter(function (n) {
+      return this.has(n);
+    }, new Set(product.images));
+
+    images = images.concat(keepImage);
+    console.log(images);
+
+    await Product.findOneAndUpdate(
+      { user: req.user.id, _id: prodId },
+      { $set: { title, description, price, images } },
+      { returnNewDocument: true }
+    );
+    res.status(202).send("Done");
+  } catch (error) {}
+};
+
+exports.postDeleteController = async (req, res, next) => {
+  let { prodId } = req.params;
+
+  try {
+    let product = await Product.findOneAndDelete({
+      user: req.user._id,
+      _id: prodId,
+    });
+
+    for (var i = 0; i < product.images.length; i++) {
+      fs.unlink(`./assets${product.images[i]}`, async function (err) {
+        console.log("Done");
+      });
+    }
+
+    console.log(product.images);
+
+    await Profile.findOneAndUpdate(
+      { user: req.user._id },
+      { $pull: { product: prodId } }
+    );
+    res.redirect("/post/");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.allPostGetController = async (req, res, next) => {
+  try {
+    let products = await Product.find({ user: req.user._id });
+    //for(var i=0;i<2;i++){console.log(products[i])}
+    // console.log(products.toString())
+    res.status(202).render("./play/post", { products });
+    // res.send(products)
+  } catch (error) {
+    console.log(error);
   }
 };

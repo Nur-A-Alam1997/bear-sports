@@ -2,6 +2,9 @@ const route = require("express").Router();
 const {
   postCreatePostController,
   postEditGetController,
+  postEditPostController,
+  postDeleteController,
+  allPostGetController
 } = require("../controller/postController");
 
 route.get("/create", (req, res, next) => {
@@ -12,6 +15,8 @@ route.post("/create", postCreatePostController);
 
 route.get("/edit/:prodId", postEditGetController);
 route.post("/edit/:prodId", postEditPostController);
-route.get("/delete/:prodId", postEditDeleteController);
+route.post("/delete/:prodId", postDeleteController);
+
+route.get("/",allPostGetController)
 
 module.exports = route;

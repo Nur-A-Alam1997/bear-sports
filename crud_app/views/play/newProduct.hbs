@@ -110,8 +110,8 @@
     <form>
 
       <div class="form-floating">
-        <input type="text" class="form-control{{#if error.title }} is-invalid{{/if}}" id="title"
-          placeholder="title" name="title" value="{{#if value.title}} {{value.title}}{{/if}}">
+        <input type="text" class="form-control{{#if error.title }} is-invalid{{/if}}" id="title" placeholder="title"
+          name="title" value="{{#if value.title}} {{value.title}}{{/if}}">
         <label for="title">Title</label>
         <div class="invalid-feedback">
           {{error.title}}
@@ -127,7 +127,7 @@
 
       <div class="form-floating">
         <input type="price" class="form-control{{#if error.price }} is-invalid{{/if}}" id="price" placeholder="price"
-          name="price" value="{{#if value.price}} {{value.price}}{{/if}}">
+          name="number" value="{{#if value.price}} {{value.price}}{{/if}}">
         <label for="price">Price</label>
         <div class="invalid-feedback">
           {{error.price}}
@@ -156,7 +156,7 @@
     <form id="theform" enctype="multipart/form-data">
       <span class="btn btn-success fileinput-button">
         <span>Select Attachment</span>
-        <input type="file" name="photos[]" id="files" multiple accept="image/jpeg, image/png, image/gif,"><br />
+        <input type="file" name="photos[]" id="files" multiple accept="image/jpeg, image/png, image/gif," required ><br />
       </span>
       <input type="submit" value="submit">
     </form>
@@ -303,12 +303,13 @@
       //data: new FormData(this),
       data: JSON.stringify({
         "title": title,
-        "description":description,
-        "price":price,
+        "description": description,
+        "price": price,
         "image": AttachmentArray.filter(function () { return true })
       }),
       success: function (result) {
-        window.location.replace(result)
+        //window.location.replace(result)
+        window.location.href=window.location.origin+result
         //alert(result);
       },
       error: function (xhr, result, errorThrown) {
