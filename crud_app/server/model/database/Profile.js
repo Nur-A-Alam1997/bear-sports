@@ -15,6 +15,18 @@ const profileSchema= new Schema({
         maxlength:255,
         required:true
     },
+    livingArea:{
+        type:String,
+        trim:true,
+        maxlength:255,
+        required:true
+    },
+    occupation:{
+        type:String,
+        trim:true,
+        maxlength:255,
+        required:true
+    },
     
     profilePic:
     {
@@ -23,6 +35,13 @@ const profileSchema= new Schema({
 
 
     product:
+    [
+        {
+            type:Schema.Types.ObjectId,
+            ref:"Product"
+        }
+    ],
+    bookmarks:
     [
         {
             type:Schema.Types.ObjectId,

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/modalCropper/jquery-3.1.1.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/SidebarCss/sidebar.css" />
+    <link rel="stylesheet" href="/css/SidebarCss/styles.css" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<style>
+    body {
+        background: #654ea3;
+        background: linear-gradient(to right, #e96443, #904e95);
+        min-height: 100vh;
+    }
+</style>
+
+<body>
+    {{>sidebarFixed}}
+    <div class="container">
+        <div class="col-md-6 offset-md-3">
+            <div class="row">
+                <section class="mb-5 my-5">
+                </section>
+            <section>
+                {{#unless products}}
+                <p>
+                    no post available
+                </p>
+                {{/unless}}
+
+                 
+     {{#if wishlist}}
+                {{#wishlist}}
+
+                <div class="card card-body mb-3">
+                    <img src="{{images.[0]}}" alt="" srcset="">
+                    {{!-- <img src="{{bookmarks.[0].images.[0]}}" alt="" srcset=""> --}}
+
+                                    <a href="/explorer/{{id}}" >
+                <h5>{{title}}</h5>
+                {{!-- <h5>{{bookmarks.[0].title}}</h5> --}}
+                </a>
+                
+            
+                {{!-- <p class="mb-2"> {{bookmarks.[0].price }}</p> --}}
+                <p class="mb-2">price: {{price }}</p>
+                <div class="d-flex">
+                    <small>
+                        <br>
+                        <i>{{timestamps}}</i>
+                    </small>
+                    
+                    
+                </div>
+                
+                    
+                </div>
+
+                {{/wishlist}}
+                {{/if}}
+
+
+ <section>
+                {{#ifConD totalPage ">" 1}}
+                {{!-- {{math currentPage "-" 1}}
+                {{totalPage}}{{currentPage}}
+                
+                {{filter}} --}}
+                
+            <nav>
+                <ul class="pagination">
+                     <li class="page-item">
+                        <a href="/post/wishlist?currentPage={{math currentPage "-" 1}}"
+                        class="btn btn-outline-dark btn-sm {{#if (check currentPage  1)}} disabled {{/if}}" tabindex="-1" role="button" 
+                        aria-disabled="true">previous</a>
+                    </li>
+
+                    </li>
+                        {{#for 1 totalPage 1}}
+
+                    <li class="page-item" >
+                    
+                        <a href="/post/wishlist?currentPage={{this}}" 
+                        class=" {{#if (check ../currentPage  this)}} btn btn-dark btn-sm{{else}}btn btn-outline-dark btn-sm {{/if}}" tabindex="-1" role="button" 
+                        aria-disabled="true">{{this}}</a>
+
+                        
+                    </li>
+                        {{/for}}
+                        
+                    <li class="page-item">
+                        <a href="/post/wishlist?currentPage={{math currentPage "+" 1}}"
+                        class="btn btn-outline-dark btn-sm {{#if (check currentPage  totalPage)}} disabled {{/if}}" tabindex="-1" role="button" 
+                        aria-disabled="true">next</a>
+                    </li>
+                </ul>
+                
+            </nav>
+                {{/ifConD}}
+            </section>                
+
+        </div>
+            
+        </div>
+        </div>
+        
+</body>
+<script src="/js/bookmarks.js"></script>
+<script src="/js/likeDislike.js"></script>
+</html>               

@@ -2,16 +2,17 @@ const Profile = require("../model/database/Profile")
 const User = require("../model/database/User")
 const { validationResult } = require("express-validator")
 const errorFormatter =require("../utils/validationErrorFormatter")
+const Product = require("../model/database/Product")
 
 
 
 
 exports.profileUpdateController = async (req,res,next)=>{
 
-    const {bio}=req.body
-    console.log(bio)
+    const {bio,livingArea,occupation}=req.body
+    console.log(bio,livingArea,occupation)
     let errors =validationResult(req).formatWith(errorFormatter)
-    console.log(errors.mapped().msg)
+    // console.log(errors.mapped().msg)
     if (!errors.isEmpty()){
         // console.log(errors.mapped())
         return res.send(
@@ -20,23 +21,23 @@ exports.profileUpdateController = async (req,res,next)=>{
             error:errors.mapped(),
             value:
             {
-                bio,
+                bio,livingArea,occupation
             }
         })
     }
 
         try {
-            const {bio}=req.body
+            const {bio,livingArea,occupation}=req.body
             console.log("it's a try")
             let profile = await Profile.findOne({user:req.user._id})
-            console.log(profile)
+            // console.log(profile)
             if (!profile){
                 console.log("it's a profile try")
                 let profile=new Profile({
                     user:req.user._id,
-                    bio,
+                    bio,livingArea,occupation,
                     profilePic:req.user.profilePic,
-                    post:[],
+                    product:[],
                     bookmarks:[]
                 })
                 let createdProfile = await profile.save()
@@ -47,9 +48,9 @@ exports.profileUpdateController = async (req,res,next)=>{
             }
             else{
                 try {
-                    await Profile.findOneAndUpdate(
+                    let profile = await Profile.findOneAndUpdate(
                         {user:req.user._id},
-                        {$set:{bio}},
+                        {$set:{bio,livingArea,occupation}},
                         // {returnNewDocument: true}
                         )
                     }
@@ -60,10 +61,34 @@ exports.profileUpdateController = async (req,res,next)=>{
                 
             }
             console.log({bio})
-            res.status(202).json({bio,title:"Profile Update"})
+            res.status(202).redirect("/profilePic/edit")
 
         }catch (error) {
             console.log(error)
             res.status(500)
         }
     }
+
+exports.profileEditGetController = async (req,res,next)=>{
+    try {
+        let profile=await Profile.findOne({user:req.user._id})
+        res.status(202).render("newProfile",{profile,title:"Profile Update"})
+    } catch (error) {
+        console.log(error)
+        res.status(500)
+    }
+}
+
+    
+exports.profileGetController=async(req,res,next)=>{
+    try {
+        let {userId} = req.params
+        let profile = await Profile.findOne({user:userId})
+        let product =await Product.find({user:userId})
+        console.log(product)
+        res.status(202).render("profile",{profile,product})
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+}

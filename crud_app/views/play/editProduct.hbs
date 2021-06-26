@@ -2,17 +2,27 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-</head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-control" content="no-cache">
+  <title>Document</title>
+  <script src="/modalCropper/jquery-3.1.1.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-<body>
-    <style>
+  <link rel="stylesheet" href="/css/SidebarCss/sidebar.css" />
+    <link rel="stylesheet" href="/css/SidebarCss/styles.css" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css" />
+</head>
+<style>
+    body {
+    background: #654ea3;
+    background: linear-gradient(to right, #e96443, #904e95);
+    min-height: 100vh;
+}
+</style>
+<style>
         /*Copied from bootstrap to handle input file multiple*/
         .btn {
             display: inline-block;
@@ -108,9 +118,21 @@
             font-size: 12px;
         }
     </style>
-    <div class="card card-body">
+<body>
+    
+    {{>sidebarFixed}}
+  {{!-- <div class="container"> --}}
+        <div class="col-md-6 offset-md-3">
+            <div class="row">
+    <div class="card card-body my-5 ">
         <form>
 
+            <select class="form-select" name="category" id="category" required>
+                <option selected>{{product.category}}</option>
+                <option value="1">Cricket</option>
+                <option value="2">Football</option>
+                <option value="3">Others..</option>
+            </select>
             <div class="form-floating">
                 <input type="text" class="form-control" id="title" placeholder="title" name="title"
                     value="{{product.title}}">
@@ -118,11 +140,21 @@
             </div>
 
             <div class="form-floating">
-                <input type="text" maxlength='250' id="description" name="description" class="form-control"
-                    placeholder="description" value="{{product.description}}" style="width: 100%;height: 100px;">
+                <textarea type="text" maxlength='250' id="description" name="description" class="form-control"
+                    placeholder="description" value="" style="width: 100%;height: 100px;">{{product.description}}</textarea>
                 <label for="description">Description</label>
             </div>
-
+            <div class="form-floating">
+                <input type="text" maxlength='250' id="location" name="location" class="form-control"
+                    placeholder="location" value="{{product.location}}" style="width: 100%;height: 100px;">
+                <label for="location">Location</label>
+            </div>
+            
+            <select class="form-select" name="condition" id="condition" required>
+                <option selected>{{product.condition}}</option>
+                <option value="1">New</option>
+                <option value="2">Used</option>
+            </select>
 
             <div class="form-floating">
                 <input type="number" class="form-control" id="price" placeholder="price" name="price"
@@ -163,8 +195,12 @@
         </form>
         <div>
 
-            <output class="card card-body" id="Filelist"></output>
+            <output class="card card-body mb-5" id="Filelist"></output>
         </div>
+    </div>
+
+    </div>
+    </div>
     </div>
 </body>
 <script>
@@ -345,6 +381,9 @@
         var title = document.getElementById("title").value
         var price = document.getElementById("price").value
         var description = document.getElementById("description").value
+        var category= $("#category option:selected").text();
+        var condition=$("#condition option:selected").text();
+        var location = document.getElementById("location").value
 
 
         $.ajax({
@@ -357,7 +396,10 @@
             data: JSON.stringify({
                 "title": title,
                 "description": description,
-                "price": price,
+                "price": price,        
+                "category":category,
+                "condition":condition,
+                "location":location,
                 "oldFiles": oldFiles,
                 "newFiles": AttachmentArray.filter(function () { return true; }),
             }),

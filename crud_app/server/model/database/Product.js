@@ -15,6 +15,18 @@ const productSchema = new Schema({
         type:String,
         required:true,
     },
+    category:{
+        type:String,
+        required:true,
+    },
+    condition:{
+        type:String,
+        required:true,
+    },
+    location:{
+        type:String,
+        required:true,
+    },
     description:
     {
         type:String,
@@ -33,9 +45,37 @@ const productSchema = new Schema({
         ref:"Profile",
         // required:true
     },
+    like:
+    [{        
+    type:Schema.Types.ObjectId,
+    ref:"User"
+    }],
+    dislike:
+    [{
+        type:Schema.Types.ObjectId,
+        ref:"User"
+    }],
+    comment:[
+        {type: Schema.Types.ObjectId,
+        ref:"Comment"}],
     timestamps:{ type: Date, default: Date.now }
     
 })
+
+// productSchema.index({
+//     title:"text",
+//     category:"text",
+//     condition:"text",
+//     location:"text"
+// },{
+//     weights:{
+//         title:5,
+//         category:5,
+//         location:5
+//     }
+// })
+
+
 const Product = model("Product",productSchema)
 
 module.exports=Product

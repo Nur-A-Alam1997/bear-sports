@@ -5,12 +5,17 @@ const hbs = require("hbs");
 const path = require("path");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const moment = require("moment")
 const { bindUserwithRequest } = require("./server/middleware/authMiddleware");
 const setLocals = require("./server/middleware/setLocals");
 const authRoutes = require("./server/routes/authRoute");
 const dashboardRoute = require("./server/routes/dashboardRoute");
 const uploadRoute = require("./server/routes/uploadRoute");
 const postRoute = require("./server/routes/postRoute");
+const apiRoutes=require("./server/routes/apiRoutes")
+const explorerRoute=require("./server/routes/explorerRoute")
+const {emailVerification}=require("./server/middleware/emailMiddleware")
+
 
 const store = new MongoDBStore({
   uri: "mongodb+srv://admin:64@cluster0.fqlyv.mongodb.net/e-sports?retryWrites=true&w=majority",
@@ -24,8 +29,25 @@ app.set("view engine", "hbs");
 app.set("views", path.resolve(__dirname, "views"));
 
 hbs.registerPartials(path.join(__dirname, "/views/partials"));
-hbs.registerHelper("loud", function (string) {
-  return string.toUpperCase();
+
+
+hbs.registerHelper("moment", function (time) {
+  return moment.utc(time).startOf('day').fromNow();
+});
+
+hbs.registerHelper('trimString', function(passedString, startstring, endstring) {
+  var theString = passedString.substring( startstring, endstring );
+  return new hbs.SafeString(theString)
+});
+
+hbs.registerHelper('check', function(val1, val2) {
+  return val1 == val2;
+});
+hbs.registerHelper('eq', function(array, b) {
+  if(array.includes(b)) // Or === depending on your needs
+      return true;
+  else
+      return false;
 });
 
 hbs.registerHelper("ifCond", function (v1, v2, options) {
@@ -34,6 +56,58 @@ hbs.registerHelper("ifCond", function (v1, v2, options) {
   }
   return options.inverse(this);
 });
+
+
+hbs.registerHelper('ifConD', function (v1, operator, v2, options) {
+
+  switch (operator) {
+      case '==':
+          return (v1 == v2) ? options.fn(this) : options.inverse(this);
+      case '===':
+          return (v1 === v2) ? options.fn(this) : options.inverse(this);
+      case '!=':
+          return (v1 != v2) ? options.fn(this) : options.inverse(this);
+      case '!==':
+          return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+      case '<':
+          return (v1 < v2) ? options.fn(this) : options.inverse(this);
+      case '<=':
+          return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+      case '>':
+          return (v1 > v2) ? options.fn(this) : options.inverse(this);
+      case '>=':
+          return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+      case '&&':
+          return (v1 && v2) ? options.fn(this) : options.inverse(this);
+      case '||':
+          return (v1 || v2) ? options.fn(this) : options.inverse(this);
+      default:
+          return options.inverse(this);
+  }
+});
+
+hbs.registerHelper('for', function(from, to, incr, block) {
+  var accum = '';
+  for(var i = from; i < to; i += incr)
+      accum += block.fn(i);
+  return accum;
+});
+
+hbs.registerHelper("math", function(lvalue, operator, rvalue, options) {
+  lvalue = parseFloat(lvalue);
+  rvalue = parseFloat(rvalue);
+      
+  return {
+      "+": lvalue + rvalue,
+      "-": lvalue - rvalue,
+      "*": lvalue * rvalue,
+      "/": lvalue / rvalue,
+      "%": lvalue % rvalue
+  }[operator];
+});
+
+
+
 
 hbs.registerHelper("toJSON", function (obj) {
   return JSON.stringify(obj);
@@ -57,7 +131,8 @@ app.use(setLocals());
 app.use("/auth", authRoutes);
 app.use("/dashboard", dashboardRoute);
 app.use("/post", postRoute);
-
+app.use("/api",apiRoutes);
+app.use("/explorer",explorerRoute);
 app.use("/profilePic", uploadRoute);
 
 app.get("/createProfile", (req, res) => {
@@ -128,7 +203,7 @@ const play = require("./dist/js/play");
 const form = require("./server/middleware/formidable");
 app.use("/u", form);
 
-app.get("/", (req, res) => {
+app.get("/",emailVerification, (req, res) => {
   // res.render("index");
   yourCities = [
     "stockholm",
@@ -138,13 +213,13 @@ app.get("/", (req, res) => {
     "helsinki",
     "london",
   ];
-  res.render("./play/newPost", { city: yourCities });
+  res.render("test", { city: yourCities });
 });
 
 mongoose
   .connect(
     "mongodb+srv://admin:64@cluster0.fqlyv.mongodb.net/e-sports?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
+    { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex: true, useFindAndModify: false }
   )
   .then(() => {
     console.log("connected");

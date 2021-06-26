@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/modalCropper/jquery-3.1.1.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/SidebarCss/sidebar.css" />
+    <link rel="stylesheet" href="/css/SidebarCss/styles.css" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<style>
+    body {
+        background: #654ea3;
+        background: linear-gradient(to right, #e96443, #904e95);
+        min-height: 100vh;
+    }
+</style>
+
+<body>
+    {{>sidebarFixed}}
+    <div class="container">
+        <div class="col-md-6 offset-md-3">
+            <div class="row">
+                <section class="mb-5 my-5">
+                </section>
+            <section>
+                {{#unless product}}
+                <p>
+                    no post available
+                </p>
+                {{/unless}}
+
+                {{#if product}}
+                {{#product}}
+                <div class="card card-body mb-3">
+                    <img src="{{images.[0]}}" alt="" srcset="">
+
+                                    <a href="/explorer/{{id}}" >
+                <h5>{{title}}</h5>
+                </a>
+                {{#if (check ../isLoggedIn true)}}ole{{/if}}
+                {{#if ../isLoggedIn}}
+                        <span class="ml-auto bookmarks" data-post="{{id}}">
+                        {{!-- {{#if ../bookmarks}} --}}
+                        
+                            {{#if (eq ../bookmarks id)}}                            
+                            <span class="material-icons">
+                                bookmark
+                                </span>
+                                {{else}}
+                            <span class="material-icons">
+                            bookmark_border
+                            </span>
+                            {{/if }}
+                                
+                        {{!-- {{/if}} --}}
+
+                        </span>
+                    {{/if}}
+                <p class="mb-2"> {{ description }}</p>
+                <div class="d-flex">
+                    <small>
+                        Posted by <i>{{user.name}}</i> 
+                        <br>
+                        <i>{{timestamps}}</i>
+                    </small>
+                    
+                    
+                </div>
+                
+                    
+                </div>
+
+                {{/product}}
+                {{/if}}
+
+            </section>
+            {{#unless isLoggedIn}}
+                <section>
+                    <ul class="like-dislike" >
+                        <li class="like">
+                            <a 
+                            class="btn btn-outline-dark btn-sm  disabled " tabindex="-1" role="button" 
+                            aria-disabled="true">Like({{product.like.length}})</a>
+                        </li>
+
+                        </li>
+                            
+                        <li class="dislike">
+                            <a 
+                            class="btn btn-outline-dark btn-sm  disabled " tabindex="-1" role="button" 
+                            aria-disabled="true">Dislike({{product.dislike.length}})</a>
+                        </li>
+                    </ul>
+                    <p class="text-center text-muted bg-dark" >please <a href="/auth/login"> log in</a> to Comment </p>
+                </section>
+                {{else}}
+                 <section>
+                    <ul class="like-dislike"  style="list-style: none;">
+                        <li id="like-btn" data-post="{{product.id}}">
+                            <a id="like" 
+                            class="{{#if (eq product.like user.id)}}btn btn-dark btn-sm
+                            {{else}} btn btn-outline-dark btn-sm{{/if}} "
+                             tabindex="-1" role="button" 
+                            aria-disabled="true">{{#if (eq product.like user.id)}}Liked
+                            {{else}}Like{{/if}}({{product.like.length}})</a>
+                        </li>
+                        </li>
+                            
+                        <li id="dislike-btn" data-post="{{product.id}}">
+                            <a id="dislike"
+                            class="{{#if (eq product.dislike user.id)}}btn btn-dark btn-sm
+                            {{else}} btn btn-outline-dark btn-sm{{/if}} " 
+                            tabindex="-1" role="button" 
+                            aria-disabled="true">{{#if (eq product.dislike user.id)}}DisLiked
+                            {{else}}DisLike{{/if}}({{product.dislike.length}})</a>
+                        </li>
+                    </ul>
+                    
+                </section>
+            {{/unless }}
+            <section>
+                    {{#if isLoggedIn}}
+                    <div class="comment mt-5">
+                        <label for="comment mb-2">Leave a comment</label>
+                        <input type="text" class="form-control" id="comment" placeholder="comment"
+                        name="comment" >
+                    </div>
+                    <div class="comment-holder">
+                        {{#unless comments}}
+                            <p class="text-center text-muted bg-dark my-2" >There is no Comment </p>
+                            {{else}}
+                            <div class="media border">
+                            <img src="{{comment.user.profilePic}}" alt="" class="">
+                            <div class="media-body my-3">
+                                <p>{{comment.body}}</p>
+                                <div class="replies">
+                                    <div class="media mt-3">
+
+                                        <img src="{{reply.user.profilePc}}" alt="">
+                                        <div class="media-body">
+                                            <p>{{reply.body}}</p>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            </div>
+                        {{/unless}}
+                    </div>
+                    {{/if}}
+            </section>
+        </div>
+            
+        </div>
+        </div>
+        
+</body>
+<script src="/js/bookmarks.js"></script>
+<script src="/js/likeDislike.js"></script>
+</html>               
