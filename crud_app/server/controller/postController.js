@@ -3,7 +3,7 @@ const Product = require("../model/database/Product");
 const Profile = require("../model/database/Profile");
 
 exports.postCreatePostController = async (req, res, next) => {
-  let { title, description, price, image } = req.body;
+  let { title, description, price, image,category,condition,location } = req.body;
 
   let images = [];
 
@@ -26,6 +26,7 @@ exports.postCreatePostController = async (req, res, next) => {
   let product = new Product({
     title,
     price,
+    category,condition,location,
     description,
     images,
     user: req.user._id,
@@ -61,7 +62,7 @@ exports.postEditGetController = async (req, res, next) => {
 
 exports.postEditPostController = async (req, res, next) => {
   try {
-    let { title, description, price } = req.body;
+    let { title, description, price ,category,condition,location} = req.body;
     let newFiles = req.body.newFiles;
     let newImage = [];
     if (newFiles) {
@@ -108,7 +109,7 @@ exports.postEditPostController = async (req, res, next) => {
 
     await Product.findOneAndUpdate(
       { user: req.user.id, _id: prodId },
-      { $set: { title, description, price, images } },
+      { $set: { title, description, price, images,category,condition,location } },
       { returnNewDocument: true }
     );
     res.status(202).send("Done");
@@ -123,24 +124,78 @@ exports.postDeleteController = async (req, res, next) => {
       user: req.user._id,
       _id: prodId,
     });
-
-    for (var i = 0; i < product.images.length; i++) {
-      fs.unlink(`./assets${product.images[i]}`, async function (err) {
-        console.log("Done");
-      });
+    if (product)
+    {
+      for (var i = 0; i < product.images.length; i++) {
+        fs.unlink(`./assets${product.images[i]}`, async function (err) {
+          console.log("Done");
+        });
+      }
+  
+      console.log(product.images);
+  
+      await Profile.findOneAndUpdate(
+        { user: req.user._id },
+        { $pull: { product: prodId } }
+      );
+  
     }
+    // for (var i = 0; i < product.images.length; i++) {
+    //   fs.unlink(`./assets${product.images[i]}`, async function (err) {
+    //     console.log("Done");
+    //   });
+    // }
 
-    console.log(product.images);
+    // console.log(product.images);
 
-    await Profile.findOneAndUpdate(
-      { user: req.user._id },
-      { $pull: { product: prodId } }
-    );
+    // await Profile.findOneAndUpdate(
+    //   { user: req.user._id },
+    //   { $pull: { product: prodId } }
+    // );
     res.redirect("/post/");
   } catch (error) {
     console.log(error);
   }
 };
+
+
+
+exports.wishListGetController=async (req,res,next)=>{
+
+
+  try {
+    let itemPerPage = 5
+    let currentPage = req.query.currentPage || 1
+
+    let wishList = await Profile.find({ user: req.user._id })
+    .populate(
+      {
+      path:"bookmarks",
+      // Model:"Product",
+      select:"title price timestamps"
+      })
+      // .skip((itemPerPage * currentPage)-itemPerPage)
+      // .limit(itemPerPage)
+      
+      let wishlist = wishList[0]["bookmarks"]
+      .slice((itemPerPage * currentPage)-itemPerPage,itemPerPage * currentPage)
+      // console.log(JSON.stringify(wishlist))
+
+      let totalPost=wishList[0]["bookmarks"].length
+      
+      // console.log(totalPost,wishList[0]["bookmarks"].length)
+      let totalPage =Math.ceil(totalPost/itemPerPage)
+
+
+    res.status(202).render("./play/wishList", { wishlist,itemPerPage,totalPage,currentPage });
+  } 
+    catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 
 exports.allPostGetController = async (req, res, next) => {
   try {

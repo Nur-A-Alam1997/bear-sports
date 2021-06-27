@@ -27,7 +27,7 @@
 <body>
     {{>sidebarFixed}}
     <div class="container">
-        <div class="col-md-6 offset-md-3 mb-5">
+        <div class="col-md-6 offset-md-3">
             <div class="row">
                 <section class="mb-5 my-5">
                 </section>
@@ -39,21 +39,23 @@
                 {{/unless}}
 
                  
-     {{#if products}}
-                {{#products}}
+     {{#if wishlist}}
+                {{#wishlist}}
+
                 <div class="card card-body mb-3">
                     <img src="{{images.[0]}}" alt="" srcset="">
+                    {{!-- <img src="{{bookmarks.[0].images.[0]}}" alt="" srcset=""> --}}
 
                                     <a href="/explorer/{{id}}" >
                 <h5>{{title}}</h5>
+                {{!-- <h5>{{bookmarks.[0].title}}</h5> --}}
                 </a>
                 
-                {{#if ../isLoggedIn}}
-                    {{/if}}
-                <p class="mb-2"> {{ description }}</p>
+            
+                {{!-- <p class="mb-2"> {{bookmarks.[0].price }}</p> --}}
+                <p class="mb-2">price: {{price }}</p>
                 <div class="d-flex">
                     <small>
-                        Posted by <i>{{user}}</i> 
                         <br>
                         <i>{{timestamps}}</i>
                     </small>
@@ -64,8 +66,48 @@
                     
                 </div>
 
-                {{/products}}
+                {{/wishlist}}
                 {{/if}}
+
+
+ <section>
+                {{#ifConD totalPage ">" 1}}
+                {{!-- {{math currentPage "-" 1}}
+                {{totalPage}}{{currentPage}}
+                
+                {{filter}} --}}
+                
+            <nav>
+                <ul class="pagination">
+                     <li class="page-item">
+                        <a href="/post/wishlist?currentPage={{math currentPage "-" 1}}"
+                        class="btn btn-outline-dark btn-sm {{#if (check currentPage  1)}} disabled {{/if}}" tabindex="-1" role="button" 
+                        aria-disabled="true">previous</a>
+                    </li>
+
+                    </li>
+                        {{#for 1 totalPage 1}}
+
+                    <li class="page-item" >
+                    
+                        <a href="/post/wishlist?currentPage={{this}}" 
+                        class=" {{#if (check ../currentPage  this)}} btn btn-dark btn-sm{{else}}btn btn-outline-dark btn-sm {{/if}}" tabindex="-1" role="button" 
+                        aria-disabled="true">{{this}}</a>
+
+                        
+                    </li>
+                        {{/for}}
+                        
+                    <li class="page-item">
+                        <a href="/post/wishlist?currentPage={{math currentPage "+" 1}}"
+                        class="btn btn-outline-dark btn-sm {{#if (check currentPage  totalPage)}} disabled {{/if}}" tabindex="-1" role="button" 
+                        aria-disabled="true">next</a>
+                    </li>
+                </ul>
+                
+            </nav>
+                {{/ifConD}}
+            </section>                
 
         </div>
             

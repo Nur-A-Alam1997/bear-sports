@@ -30,6 +30,11 @@ const userSchema= new Schema({
         type:String,
         default:"/img/user.png",
     },
+    verified:
+    {
+        type:String,
+        default:"false",
+    },
     timestamps:{ type: Date, default: Date.now }
 })
 

@@ -4,19 +4,23 @@ const {
   postEditGetController,
   postEditPostController,
   postDeleteController,
-  allPostGetController
+  allPostGetController,
+  wishListGetController
 } = require("../controller/postController");
+const {isAuthenticated}=require("../middleware/authMiddleware")
 
-route.get("/create", (req, res, next) => {
+route.get("/create",isAuthenticated, (req, res, next) => {
   res.status(202).render("./play/newProduct");
 });
 
-route.post("/create", postCreatePostController);
+route.post("/create",isAuthenticated, postCreatePostController);
 
-route.get("/edit/:prodId", postEditGetController);
-route.post("/edit/:prodId", postEditPostController);
-route.post("/delete/:prodId", postDeleteController);
+route.get("/edit/:prodId",isAuthenticated, postEditGetController);
+route.post("/edit/:prodId",isAuthenticated, postEditPostController);
+route.post("/delete/:prodId",isAuthenticated, postDeleteController);
 
-route.get("/",allPostGetController)
+route.get("/wishlist",isAuthenticated, wishListGetController)
+
+route.get("/",isAuthenticated,allPostGetController)
 
 module.exports = route;

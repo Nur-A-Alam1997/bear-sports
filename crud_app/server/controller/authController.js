@@ -1,5 +1,7 @@
 const User = require("../model/database/User")
+const OTP = require("../model/database/OTP")
 const bcrypt = require ("bcrypt")
+
 const { validationResult } = require("express-validator")
 const errorFormatter =require("../utils/validationErrorFormatter")
 
@@ -41,16 +43,62 @@ exports.signupPostController= async (req,res,next)=>{
 
         let createdUser = await user.save()
         console.log("user created succefully",createdUser)
-        res.render("login",{title:"sign-in",error:errors})
+        res.render("./play/OTP",{title:"Authentication",error:errors})
     } catch (error) {
         next(error)
     }
 
     // console.log(name,email,pass)
 }
+
+
+exports.OTPgetController=(req,res,next)=>{
+    let email= req.params.email
+    console.log(email)
+    res.render("./play/OTP",{title:"Authentication",email})
+}
+exports.OTPpostController=async(req,res,next)=>{
+    try {
+        let email= req.params.email
+        console.log(email)
+        let otpConfirm=await OTP.findOne({"email":email})
+        console.log(otpConfirm)
+        let otpProvided = req.body.OTP
+        
+        console.log(otpProvided==null,otpConfirm.otp)
+        if (otpConfirm.otp & otpConfirm.otp==otpProvided){
+            let user =await User.findOneAndUpdate(
+                {email},
+                {$set:{verified:"true"}}
+                )
+            req.session.isLoggedIn=true
+            req.session.user=user
+            req.session.save(err=>
+            {
+                if (err)
+                {
+                    console.log(err)
+                    next(err)
+                }
+                
+               else res.redirect("/explorer")
+            })
+        }
+        else res.json({
+            message:"couldn't verify"
+        })
+        
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+
 exports.loginGetController=(req,res,next)=>{
     // console.log(req.session)
-    res.render("login",{title:"Log-in",error:{}})
+    return res.render("login",{title:"Log-in",error:{}})
+    // res.render()
 }
 exports.loginPostController= async (req,res,next)=>{
     let {email,password} = req.body
@@ -68,7 +116,19 @@ exports.loginPostController= async (req,res,next)=>{
  
     try {
         
+        
         let user = await User.findOne({email})
+        
+        console.log(user.verified)
+        if (user.verified=="false"){
+            
+            console.log("hey",user.verified)
+            // res.render("./play/OTP",{title:"Log-in",email})
+            // res.send({name : "StackOverFlow", reason : "Need help!", redirect_path: "/auth/otp"});
+           return res.status(200).redirect("/auth/otp/"+email)
+        // next()
+        }
+
         if (!user){
             return res.json({
                 message:"password or email is invalid"

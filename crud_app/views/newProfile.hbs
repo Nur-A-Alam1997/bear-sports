@@ -41,11 +41,110 @@
         }
     </style>
 </head>
+<style>
+  /*Copied from bootstrap to handle input file multiple*/
+  .btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  /*Also */
+  .btn-success {
+    border: 1px solid #c5dbec;
+    background: #d0e5f5;
+    font-weight: bold;
+    color: #2e6e9e;
+  }
+
+  /* This is copied from https://github.com/blueimp/jQuery-File-Upload/blob/master/css/jquery.fileupload.css */
+  .fileinput-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+  }
+
+  .thumb {
+    height: 80px;
+    width: 100px;
+    border: 1px solid #000;
+  }
+
+  ul.thumb-Images li {
+    width: 120px;
+    float: left;
+    display: inline-block;
+    vertical-align: top;
+    height: 120px;
+  }
+
+  .img-wrap {
+    position: relative;
+    display: inline-block;
+    font-size: 0;
+  }
+
+  .img-wrap .close {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 100;
+    background-color: #d0e5f5;
+    padding: 5px 2px 2px;
+    color: #000;
+    font-weight: bolder;
+    cursor: pointer;
+    opacity: 0.5;
+    font-size: 23px;
+    line-height: 10px;
+    border-radius: 50%;
+  }
+
+  .img-wrap:hover .close {
+    opacity: 1;
+    background-color: #ff0000;
+  }
+
+  .FileNameCaptionStyle {
+    font-size: 12px;
+  }
+</style>
+<style>
+    body {
+    background: #654ea3;
+    background: linear-gradient(to right, #e96443, #904e95);
+    min-height: 100vh;
+}
+</style>
 
 <body>
-
-    {{!-- <div class="alert" role="alert"></div> --}}
-    <div class="modal fade" id="cropImagePop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  {{>sidebarFixed}}
+  <div class="modal fade" id="cropImagePop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -66,112 +165,83 @@
             </div>
         </div>
     </div>
+    
+  <div class="container">
+        <div class="col-md-6 offset-md-3">
+            <div class="row">
 
-    {{>sidebarFixed}}
+                
 
-    <div class="container container-fluid">
-
-        <div class="row py-5 px-4">
-            <div class="col-md-5 mx-auto pb-5">
-                <!-- Profile widget -->
-                <div class="bg-white shadow rounded overflow-hidden">
-                    <div class="px-4 pt-0 pb-4 cover">
+  <div class="card card-body my-5">
+      <div class="px-4 pt-0 pb-4 cover">
                         <div class="media align-items-end profile-head mt-5">
                             <div class="profile mr-3" style="width: 30%;">
-                                <label class="cabinet center-block">
+                                <label class="cabinet ">
                                     {{!-- <img src="" class="gambar img-responsive img-thumbnail"
                                         id="item-img-output" /> --}}
+                                    <i class="mdi mdi-camera" style="color: #c5dbec;">
+
                                     <img src="{{user.profilePic}}" class="gambar img-responsive img-thumbnail"
                                         style="border: 0px;" id="item-img-output" />
-                                    <i class="mdi mdi-camera" style="width: 0px"></i>
+                                    </i>
 
 
                                     <input type="file" onchange="getFileData(this)" class="item-img file center-block"
                                         name="file_photo" />
                                 </label>
-                            </div>
-
-                            <div class="media-body mb-5 text-white">
-                                {{!-- <h4 class="mt-0 mb-0">Mark Williams</h4> --}}
-                                <h4 class="mt-0 mb-0"> {{user.name}} </h4>
-                                <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>New York</p>
+                                
                             </div>
                         </div>
                     </div>
-                    <div class="bg-light p-4 mt-2 mt-md-2 mt-lg-2 d-flex justify-content-end text-center">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item">
-                                <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i
-                                        class="fas fa-image mr-1"></i>Photos</small>
-                            </li>
-                            <li class="list-inline-item">
-                                <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i
-                                        class="fas fa-user mr-1"></i>Followers</small>
-                            </li>
-                            <li class="list-inline-item">
-                                <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i
-                                        class="fas fa-user mr-1"></i>Following</small>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="px-4 py-3">
-                        <h5 class="mb-0">About</h5>
-                        {{!-- <form action="/profilePic/bio" method="PUT"> --}}
-                            <div class="p-4 rounded shadow-sm bg-light">
-                                {{!-- <input type="text" id="about" name="about"
-                                    style="  line-height:30px;font-size:22px;"> --}}
-                                <textarea type="text" maxlength='250' id="bio" name="bio" class="textarea"
-                                    style="width: 100%;height: 150px;">{{profile.bio}}</textarea>
-
-                                {{!-- {{Alert}} --}}
-                                <div class="alert" id="alert" role="alert"></div>
-                            </div>
-                            <input type="button" id="update" onclick="updateBio()" value="Update Profile">
-                            {{!--
-                        </form> --}}
-                    </div>
-                    <div class="py-4 px-4">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 mb-2 pr-lg-1"><img
-                                    src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-                                    alt="" class="img-fluid rounded shadow-sm"></div>
-                            <div class="col-lg-6 mb-2 pl-lg-1"><img
-                                    src="https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-                                    alt="" class="img-fluid rounded shadow-sm"></div>
-                            <div class="col-lg-6 pr-lg-1 mb-2"><img
-                                    src="https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-                                    alt="" class="img-fluid rounded shadow-sm"></div>
-                            <div class="col-lg-6 pl-lg-1"><img
-                                    src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-                                    alt="" class="img-fluid rounded shadow-sm"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="mt-5 mb-2 text-center"><h1>{{user.name}}</h1></div>
+    <form action="/profilePic/update" class="form-control my-5" method="POST" >
+      
+      <div class="form-floating">
+        <input type="livingArea" class="form-control{{#if error.livingArea }} is-invalid{{/if}}" id="livingArea" placeholder="Living Area"
+          name="livingArea" value="{{profile.livingArea}}" required>
+        <label for="livingArea"></label>
+        <div class="invalid-feedback">
+          {{error.livingArea}}
         </div>
-    </div>
+      </div>
 
-    <!-- Modal -->
+      <div class="form-floating">
+        <input type="occupation" maxlength='25' id="occupation" name="occupation" class="form-control"
+          placeholder="Occupation" value="{{profile.occupation}}"  required>
+        <label for="occupation"></label>
+      </div>
 
+        <div class="form-floating">
+                {{!-- <input type="text" id="about" name="about"
+                style="  line-height:30px;font-size:22px;"> --}}
+            <textarea type="text" maxlength='250' id="bio" name="bio" class="form-control"
+            placeholder="Bio"
+                style="width: 100%;height: 150px;">{{profile.bio}}</textarea>
 
-    <footer>
-        <script src="/modalCropper/croppie.js"></script>
+            {{!-- {{Alert}} --}}
+            <div class="alert" id="alert" role="alert"></div>
+        </div>
+        <input type="submit" id="update" onclick="updateBio()" value="submit">
+    </form>
+
+  </div>
+  <div>
+
+    <!--To give the control a modern look, I have applied a stylesheet in the parent span.-->
+    <form id="theform" >
+      {{!-- <input type="submit" value="submit"> --}}
+    </form>
+  </div>
+
+  </div>
+  </div>
+  </div>
+</body>
+<script src="/modalCropper/croppie.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 
-        {{!--
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js">
-        </script>
-
-        <script src="js/profilePicUpload.js">
-        </script> --}}
-        <script>
-
-        </script>
-        <script>
+ {{!-- <script>
             function updateBio() {
                 var val = document.getElementById("bio").value
                 console.log(typeof (val))
@@ -190,7 +260,7 @@
 
                 })
             }
-        </script>
+        </script> --}}
         <script>
             $('#bio').keyup(function () {
                 var $alert = $('.alert');
@@ -212,7 +282,7 @@
                 }
             });
         </script>
-        <script>
+<script>
             function getFileData(myFile) {
                 var file = myFile.files[0];
                 var filename = file.name;
@@ -327,7 +397,4 @@
             });
                 // End upload preview image
         </script>
-    </footer>
-</body>
-
 </html>

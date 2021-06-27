@@ -29,7 +29,7 @@ exports.createProfileGetController=async (req,res,next)=>
             })
         if (profile)
         {
-            return res.redirect("/editProfile")
+            return res.redirect("/profilePic/edit")
         }
         return res.render("createProfile",{title:"Profile"})
     } catch (error) {
