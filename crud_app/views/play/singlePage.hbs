@@ -46,7 +46,7 @@
                                     <a href="/explorer/{{id}}" >
                 <h5>{{title}}</h5>
                 </a>
-                {{#if (check ../isLoggedIn true)}}ole{{/if}}
+                {{#if (check ../isLoggedIn true)}} <a href="/post/edit/{{id}}">Edit</a>{{/if}}
                 {{#if ../isLoggedIn}}
                         <span class="ml-auto bookmarks" data-post="{{id}}">
                         {{!-- {{#if ../bookmarks}} --}}
@@ -140,12 +140,12 @@
                     </div>
 
                     
-                    <div class="comment-holder mb-5 ">
+                    <div class="comment-holder mb-5 " id="comment-holder">
                         {{#unless product.comment}}
                             <p class="text-center text-muted bg-dark my-2" >There is no Comment </p>
                             {{else}}
                             {{#each product.comment}}
-                            <div class="media border bg-light" style="border-radius: 10px">
+                            <div class="media border bg-light" style="border-radius: 5px">
                             <img src="{{user.profilePic}}" alt="" style="width: 20px;height:30px;border-radius: 50%;"class="">
                             <i>{{user.name}}</i>
                             <div class="media-body my-2" style="margin: 8px;

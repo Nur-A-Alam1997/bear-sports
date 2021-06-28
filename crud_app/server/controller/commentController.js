@@ -24,7 +24,7 @@ exports.commentPostController = async (req, res, next) => {
     );
     let commentJSON = await Comment.findById(createdComment._id).populate({
       path: "user",
-      select: "proflePic name",
+      select: "profilePic name",
     });
     console.log(commentJSON)
     return res.status(202).json(commentJSON);

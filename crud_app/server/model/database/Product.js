@@ -74,7 +74,11 @@ const productSchema = new Schema({
 //         location:5
 //     }
 // })
-
+productSchema.pre('deleteMany', function(next) {
+    // var product = this;
+    // product.model('Comment').deleteOne({ product: product._id }, next);
+    this.model('Comment').remove({ product: this._id }, next);
+});
 
 const Product = model("Product",productSchema)
 

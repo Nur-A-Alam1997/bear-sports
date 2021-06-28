@@ -1,6 +1,7 @@
 const fs = require("fs");
 const Product = require("../model/database/Product");
 const Profile = require("../model/database/Profile");
+const Comment = require("../model/database/Comment");
 
 
 exports.hasProfile=async(req,res,next)=>{
@@ -142,6 +143,11 @@ exports.postDeleteController = async (req, res, next) => {
       user: req.user._id,
       _id: prodId,
     });
+
+    await Comment.deleteMany({
+      product:prodId
+    })
+
     if (product)
     {
       for (var i = 0; i < product.images.length; i++) {

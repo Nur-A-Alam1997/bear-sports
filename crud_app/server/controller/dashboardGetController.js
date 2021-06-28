@@ -33,7 +33,7 @@ exports.createProfileGetController=async (req,res,next)=>
         }
         return res.render("newProfile",{title:"Create Profile"})
     } catch (error) {
-        
+        console.log(error)
     }
 }
 
