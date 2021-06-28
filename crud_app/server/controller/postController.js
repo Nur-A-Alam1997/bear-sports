@@ -2,6 +2,24 @@ const fs = require("fs");
 const Product = require("../model/database/Product");
 const Profile = require("../model/database/Profile");
 
+
+exports.hasProfile=async(req,res,next)=>{
+
+  try {
+    let profile =await Profile.findOne(
+      {
+          user:req.user._id
+      })
+      if (profile){
+          next()
+      }
+      else 
+      {return res.redirect("/profilePic/createProfile")}
+  } catch (error) {
+   console.log(error) 
+  }
+}
+
 exports.postCreatePostController = async (req, res, next) => {
   let { title, description, price, image,category,condition,location } = req.body;
 
@@ -176,16 +194,16 @@ exports.wishListGetController=async (req,res,next)=>{
       })
       // .skip((itemPerPage * currentPage)-itemPerPage)
       // .limit(itemPerPage)
-      
+      if (wishList){
       let wishlist = wishList[0]["bookmarks"]
       .slice((itemPerPage * currentPage)-itemPerPage,itemPerPage * currentPage)
       // console.log(JSON.stringify(wishlist))
-
+      
       let totalPost=wishList[0]["bookmarks"].length
       
       // console.log(totalPost,wishList[0]["bookmarks"].length)
       let totalPage =Math.ceil(totalPost/itemPerPage)
-
+      }
 
     res.status(202).render("./play/wishList", { wishlist,itemPerPage,totalPage,currentPage });
   } 
@@ -199,7 +217,11 @@ exports.wishListGetController=async (req,res,next)=>{
 
 exports.allPostGetController = async (req, res, next) => {
   try {
-    let products = await Product.find({ user: req.user._id });
+    let products = await Product.find({ user: req.user._id })
+    .populate({
+      path:"user",
+      select:"name"
+    });
     //for(var i=0;i<2;i++){console.log(products[i])}
     // console.log(products.toString())
     res.status(202).render("./play/post", { products });

@@ -11,7 +11,7 @@ exports.dashboardGetController= async(req,res,next)=>{
         if (profile){
             return res.render("index",{title:"my dashboard"})
         }
-        return res.redirect("/createProfile")
+        return res.redirect("/profilePic/createProfile")
     }
     catch(e)
     {
@@ -31,7 +31,7 @@ exports.createProfileGetController=async (req,res,next)=>
         {
             return res.redirect("/profilePic/edit")
         }
-        return res.render("createProfile",{title:"Profile"})
+        return res.render("newProfile",{title:"Create Profile"})
     } catch (error) {
         
     }

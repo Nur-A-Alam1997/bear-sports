@@ -4,9 +4,16 @@ const User = require("../model/database/User")
 const log = console.log;
 exports.emailVerification = async(req,res,next) => {
 
-  let email=req.body.email
+  let email=req.params.email
+  console.log(email)
   try {
     let user = await User.findOne({email})
+    console.log(user)
+    if (!user){
+      return res.json({
+          message:"password or email is invalid"
+      })
+              }
     await OTP.findOneAndDelete({email})
     
     if (user.verified=="false"){

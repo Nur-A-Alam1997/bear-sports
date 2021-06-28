@@ -24,13 +24,13 @@ const {
 
 
 router.get("/signup",isUnauthenticated,signupGetController)
-router.post("/signup",signupValidator,emailVerification,signupPostController)
+router.post("/signup",signupValidator,signupPostController)
 
-router.get("/otp/:email",OTPgetController)
+router.get("/otp/:email",emailVerification,OTPgetController)
 router.post("/otp/:email",OTPpostController)
 
 router.get("/login",isUnauthenticated,loginGetController)
-router.post("/login",loginValidator,emailVerification,loginPostController)
+router.post("/login",loginValidator,loginPostController)
 router.get("/logout",logoutController)
 
 

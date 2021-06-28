@@ -23,7 +23,7 @@ router.post("/crop", uploadProfilePicController);
 
 
 router.get("/createProfile",isAuthenticated,createProfileGetController, (req, res,next) => {
-   res.render("createProfile", { title: "Create Profile" });
+   res.render("newProfile", { title: "Create Profile" });
 
 });
 router.post("/createProfile",isAuthenticated, uploadProfilePicController);

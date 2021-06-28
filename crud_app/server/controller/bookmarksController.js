@@ -10,7 +10,7 @@ exports.bookmarksGetController=async(req,res,next)=>{
     let  userId= req.user._id
     
     try {
-        let bookmarks="null"
+        let bookmarks=null
         let profile = await Profile.findOne({user:userId})
         if(profile.bookmarks.includes(prodId)){
             await Profile.findOneAndUpdate(

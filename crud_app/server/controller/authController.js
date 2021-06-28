@@ -81,7 +81,7 @@ exports.OTPpostController=async(req,res,next)=>{
                     next(err)
                 }
                 
-               else res.redirect("/explorer")
+               else res.redirect("/dashboard")
             })
         }
         else res.json({
@@ -120,6 +120,12 @@ exports.loginPostController= async (req,res,next)=>{
         let user = await User.findOne({email})
         
         console.log(user.verified)
+        if (!user){
+            return res.json({
+                message:"password or email is invalid"
+            })
+        }
+
         if (user.verified=="false"){
             
             console.log("hey",user.verified)
@@ -129,11 +135,7 @@ exports.loginPostController= async (req,res,next)=>{
         // next()
         }
 
-        if (!user){
-            return res.json({
-                message:"password or email is invalid"
-            })
-        }
+        
 
         let match = await bcrypt.compare(password,user.password)
         // let match = password === user.password

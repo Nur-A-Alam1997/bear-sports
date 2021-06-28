@@ -14,6 +14,9 @@ const commentSchema = new Schema({
     trim: true,
     required: true,
   },
+  createdAt:{
+    type:Date,
+    default:Date.now},
   replies: [{
     body: {
       type: String,
@@ -25,7 +28,7 @@ const commentSchema = new Schema({
       ref: "User",
       required: true,
     },
-    createAt:{
+    createdAt:{
         type:Date,
         default:new Date()
     }

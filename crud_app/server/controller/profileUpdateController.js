@@ -84,6 +84,10 @@ exports.profileGetController=async(req,res,next)=>{
     try {
         let {userId} = req.params
         let profile = await Profile.findOne({user:userId})
+        .populate({
+            path:"user",
+            select:"name"
+        })
         let product =await Product.find({user:userId})
         console.log(product)
         res.status(202).render("profile",{profile,product})

@@ -36,7 +36,7 @@
                             >
                         </div>
                         <div class="media-body mb-5 text-white">
-                            <h4 class="mt-0 mb-0">{{user.name}}</h4>
+                            <h4 class="mt-0 mb-0">{{profile.user.name}}</h4>
                             <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{{profile.livingArea}}</p>
                         </div>
                     </div>
@@ -73,12 +73,14 @@
                         {{#each product}}
                         <div class="col-lg-6  mb-2 pr-lg-1" style="  display: flex;
                             justify-content: center;" >
-                            <img src="{{images.[0]}}"
+                            <a href="/explorer/{{id}}"><img src="{{images.[0]}}"
                             style="display: inline-block;
-                                    vertical-align: top; width:100%;height: auto;object-fit: cover;  margin-left: auto;
+                                    vertical-align: top; width:100%;height: auto;
+                                    object-fit: cover;  margin-left: auto;
                                 margin-right: auto;"
                              alt=""
                              class="img-fluid rounded shadow-sm " >
+                             </a>
                              </div>
                         {{/each}}
                         {{!-- <div class="col-lg-6 mb-2 pr-lg-1"><img src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>

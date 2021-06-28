@@ -135,9 +135,9 @@ app.use("/api",apiRoutes);
 app.use("/explorer",explorerRoute);
 app.use("/profilePic", uploadRoute);
 
-app.get("/createProfile", (req, res) => {
-  res.render("createProfile", { title: "Create Profile" });
-});
+// app.get("/createProfile", (req, res) => {
+//   res.render("createProfile", { title: "Create Profile" });
+// });
 app.get("/crop", (req, res) => {
   // console.log(req.body.data)
   res.render("cropped");
