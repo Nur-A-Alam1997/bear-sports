@@ -113,7 +113,7 @@ exports.singlePostGetController=async(req,res,next)=>{
     }
     let bookmarks=[]
     if (req.user){
-        // console.log(req.user._id)
+        loggedUser=req.user._id
         let profile=await Profile.findOne({user:req.user._id})
         if (profile){
             bookmarks=profile.bookmarks
@@ -123,7 +123,7 @@ exports.singlePostGetController=async(req,res,next)=>{
     res.render("./play/singlePage",{
         title:"SinglePage",
         
-        product,bookmarks
+        product,bookmarks,loggedUser
     })
     } catch (error) {
         next(error)

@@ -30,6 +30,7 @@
         {{!-- {{>nav}} --}}
         <div class="col-md-6 offset-md-3 mb-5">
             <div class="row">
+                {{>nav}}
                 <section class="mb-5 my-5">
                 </section>
             <section>
@@ -51,8 +52,7 @@
                 condition :<i>{{condition}}</i><br>
                 location :<i>{{location}}</i></small>
 
-                
-                {{#if (check ../isLoggedIn true)}} <a href="/post/edit/{{id}}">Edit</a>{{/if}}
+                {{#if (check ../loggedUser user.id)}} <a href="/post/edit/{{id}}">Edit</a>{{/if}}
                 {{#if ../isLoggedIn}}
                         <span class="ml-auto bookmarks" data-post="{{id}}">
                         {{!-- {{#if ../bookmarks}} --}}
@@ -185,6 +185,7 @@
         </div>
         
 </body>
+{{>scriptFooter}}
 <script src="/js/bookmarks.js"></script>
 <script src="/js/likeDislike.js"></script>
 <script src="/js/comment.js"></script>
