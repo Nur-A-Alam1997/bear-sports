@@ -213,7 +213,9 @@ app.get("/", (req, res) => {
     "helsinki",
     "london",
   ];
-  res.render("test", { city: yourCities });
+  // res.render("test", { city: yourCities });
+  res.redirect("/explorer");
+
 });
 
 mongoose

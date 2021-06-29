@@ -174,6 +174,6 @@ exports.logoutController=(req,res,next)=>{
                 console.log(err)
                 return next(err)
             }
-            return res.redirect("/")
+            return res.redirect("/explorer")
         })
 }

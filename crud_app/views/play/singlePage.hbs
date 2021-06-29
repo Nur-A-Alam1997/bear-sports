@@ -27,6 +27,7 @@
 <body>
     {{>sidebarFixed}}
     <div class="container">
+        {{!-- {{>nav}} --}}
         <div class="col-md-6 offset-md-3 mb-5">
             <div class="row">
                 <section class="mb-5 my-5">
@@ -43,9 +44,14 @@
                 <div class="card card-body mb-3">
                     <img src="{{images.[0]}}" alt="" srcset="">
 
-                                    <a href="/explorer/{{id}}" >
-                <h5>{{title}}</h5>
-                </a>
+                                    <a href="/explorer/{{id}}" ></a>
+                <h5>{{category}}</h5>
+                
+                <small>{{title}} <br>
+                condition :<i>{{condition}}</i><br>
+                location :<i>{{location}}</i></small>
+
+                
                 {{#if (check ../isLoggedIn true)}} <a href="/post/edit/{{id}}">Edit</a>{{/if}}
                 {{#if ../isLoggedIn}}
                         <span class="ml-auto bookmarks" data-post="{{id}}">

@@ -9,7 +9,7 @@ exports.dashboardGetController= async(req,res,next)=>{
             user:req.user._id
         })
         if (profile){
-            return res.render("index",{title:"my dashboard"})
+            return res.render("./play/explorer",{title:"my dashboard"})
         }
         return res.redirect("/profilePic/createProfile")
     }
