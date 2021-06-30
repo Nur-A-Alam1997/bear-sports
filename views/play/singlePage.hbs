@@ -22,86 +22,38 @@
         background: linear-gradient(to right, #e96443, #904e95);
         min-height: 100vh;
     }
+
+
+    .slider-container {
+  display: inline-block;
+    width: calc(100% - 1rem);
+    padding-bottom: calc(16.6666667% - 1rem);
+    height: 200px;
+    position: relative;
+    margin: .5rem;
+    background: #f3f3f3;
+    cursor: default;
+}
+
+{{!-- @media only screen and (max-width: 480px) {
+  img {
+    height: 50px;
+  }
+}
+@media only screen and (max-width: 680px) {
+  img {
+    height: 400px;
+  }
+} --}}
+
+#slider-img {
+      width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+}
 </style>
-<style>
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600);	
 
-
-
-h1 {
-  color: #fff;
-  text-align: center;
-  font-weight: 300;
-}
-
-#slider {
-  position: relative;
-  overflow: hidden;
-  margin: 20px auto 0 auto;
-  border-radius: 4px;
-  
-}
-
-#slider ul {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  {{!-- height: 200px; --}}
-  list-style: none;
-}
-
-#slider ul li {
-  position: relative;
-  display: block;
-  float: left;
-  margin: 0;
-  padding: 0;
-  width: 500px;
-  height: 300px;
-  {{!-- background: #ccc; --}}
-  text-align: center;
-  line-height: 300px;
-}
-
-a.control_prev, a.control_next {
-  position: absolute;
-  top: 40%;
-  z-index: 999;
-  display: block;
-  padding: 4% 3%;
-  width: auto;
-  height: auto;
-  background: #2a2a2a;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 18px;
-  opacity: 0.8;
-  cursor: pointer;
-}
-
-a.control_prev:hover, a.control_next:hover {
-  opacity: 1;
-  -webkit-transition: all 0.2s ease;
-}
-
-a.control_prev {
-  border-radius: 0 2px 2px 0;
-}
-
-a.control_next {
-  right: 0;
-  border-radius: 2px 0 0 2px;
-}
-
-.slider_option {
-  position: relative;
-  margin: 10px auto;
-  width: 160px;
-  font-size: 18px;
-}
-
-</style>
 <body>
     {{>sidebarFixed}}
     <div class="container">
@@ -125,33 +77,16 @@ a.control_next {
                 <div class="card card-body mb-3">
                     {{!-- <img src="{{images.[0]}}" alt="" srcset=""> --}}
                     
+                                 {{!-- {{#each images}}
+                                    <li><img src="{{this}}" >
+                                    {{/each}} --}}
 
-                    <div id="slider">
-                            <a href="" class="control_next">></a>
-                            <a href="" class="control_prev"><</a>
-                            <ul>
-                                {{!-- <li>SLIDE 1</li>
-                                <li style="background: #aaa;">SLIDE 2</li>
-                                <li>SLIDE 3</li>
-                                <li style="background: #aaa;">SLIDE 4</li> --}}
-                                 {{#each images}}
-                                    <li><img src="{{this}}" style=";
-    width:  350px;
-    height: 300px;
-    object-fit: cover;"class="center"></li>
-                                    {{/each}}
-
-                            </ul>  
-                            </div>
-
-                            <div class="slider_option">
-                            <input type="checkbox" id="checkbox">
-                            <label for="checkbox">Autoplay Slider</label>
-                            </div> 
-
+                    <div class="slider-container">
+                    <img id="slider-img" src="">
+                    </div>
+                                    
                    
-                   
-                    {{!-- <a href="/explorer/{{id}}" ></a> --}}
+                {{!-- <a href="/explorer/{{id}}" ></a> --}}
                 <h5>{{category}}</h5>
                 
                 <small>{{title}} <br>
@@ -297,52 +232,30 @@ a.control_next {
 <script src="/js/likeDislike.js"></script>
 <script src="/js/comment.js"></script>
 <script>
-    jQuery(document).ready(function ($) {
+ 
 
-  $('#checkbox').change(function(){
-    setInterval(function () {
-        moveRight();
-    }, 3000);
-  });
+ var images= {{{toJSON product.images}}}
+
+var img = document.getElementById("slider-img"); 
+img.setAttribute("src", images[0])
+
+var total = images.length;
+var imagecounter = 0;
+
+function slider () {
+  if (imagecounter <= total) {
+    imagecounter++;
+  }
   
-	var slideCount = $('#slider ul li').length;
-	var slideWidth = $('#slider ul li').width();
-	var slideHeight = $('#slider ul li').height();
-	var sliderUlWidth = slideCount * slideWidth;
-	
-	$('#slider').css({ width: slideWidth, height: slideHeight });
-	
-	$('#slider ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });
-	
-    $('#slider ul li:last-child').prependTo('#slider ul');
+  if (imagecounter == total) {
+    imagecounter = 0;
+  }
+  
+document.getElementById("slider-img"); 
+img.setAttribute("src", images[imagecounter]);  
+}
 
-    function moveLeft() {
-        $('#slider ul').animate({
-            left: + slideWidth
-        }, 200, function () {
-            $('#slider ul li:last-child').prependTo('#slider ul');
-            $('#slider ul').css('left', '');
-        });
-    };
-
-    function moveRight() {
-        $('#slider ul').animate({
-            left: - slideWidth
-        }, 200, function () {
-            $('#slider ul li:first-child').appendTo('#slider ul');
-            $('#slider ul').css('left', '');
-        });
-    };
-
-    $('a.control_prev').click(function () {
-        moveLeft();
-    });
-
-    $('a.control_next').click(function () {
-        moveRight();
-    });
-
-});    
-
+// Change the time each image is displayed in milliseconds
+setInterval(slider, 5000);
 </script>
 </html>               
