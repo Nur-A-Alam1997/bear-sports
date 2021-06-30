@@ -136,6 +136,7 @@ exports.singlePostGetController=async(req,res,next)=>{
 exports.searchGetController=async( req,res,next)=>{
     try {
         const {prod}=req.query
+        if (prod.replace(/\s/g, '')==""){res.status(200).send("make a valid search")}
         const regex =new RegExp(prod,"i")
         let currentPage = req.query.currentPage || 1
         let itemPerPage = 2
@@ -149,7 +150,8 @@ exports.searchGetController=async( req,res,next)=>{
         // .skip((itemPerPage * currentPage)-itemPerPage)
         // .limit(itemPerPage)
 
-        res.status(200).send({productDescription,productTitle})
+        // res.status(200).send({productDescription,productTitle})
+        res.status(200).render("./play/search",{productDescription,productTitle})
 
         //http://localhost:3000/explorer/search?prod=lorem
     } catch (error) {
