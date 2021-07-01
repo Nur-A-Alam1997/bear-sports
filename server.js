@@ -23,7 +23,7 @@ const store = new MongoDBStore({
   expires: 1000 * 60 * 60 * 24,
 });
 // const bodyParser = require("body-parser");
-const PORT = 3000;
+const PORT = process.env.PORT||3000;
 
 app.set("view engine", "hbs");
 app.set("views", path.resolve(__dirname, "views"));
@@ -225,7 +225,7 @@ mongoose
   )
   .then(() => {
     console.log("connected");
-    app.listen(PORT || 3000, () => {
+    app.listen(PORT, () => {
       console.log(`hit me baby on http://localhost:${PORT}`);
     });
   })
